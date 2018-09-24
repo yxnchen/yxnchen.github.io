@@ -375,7 +375,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-09-22 15:33:23" itemprop="dateModified" datetime="2018-09-22T15:33:23+08:00">2018-09-22</time>
+                <time title="修改时间：2018-09-24 16:54:09" itemprop="dateModified" datetime="2018-09-24T16:54:09+08:00">2018-09-24</time>
               
             
           </span>
@@ -427,15 +427,14 @@
 
       
         
-          <h2 id="变分贝叶斯推断"><a href="#变分贝叶斯推断" class="headerlink" title="变分贝叶斯推断"></a>变分贝叶斯推断</h2><p>我们希望找到一个分布$q(\Theta)$来逼近真实后验分布$p(\Theta|\mathcal{Y})$，通过最小化KL散度可以实现上述目标，也即：</p>
+          <h2 id="变分贝叶斯推断"><a href="#变分贝叶斯推断" class="headerlink" title="变分贝叶斯推断"></a>变分贝叶斯推断</h2><h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>我们希望找到一个分布$q(\Theta)$来逼近真实后验分布$p(\Theta\mid\mathcal{Y})$，通过最小化KL散度可以实现上述目标，也即：</p>
 <script type="math/tex; mode=display">
 \begin{equation}
 \begin{split}
-\text{KL}(q(\Theta)\|p(\Theta|\mathcal{Y}))&=\int q(\Theta)\text{ln}\{\frac{q(\Theta)}{p(\Theta|\mathcal{Y})}\}d\Theta \\
-&=\text{ln}p(\mathcal{Y})-\int q(\Theta)\text{ln}\{\frac{p(\mathcal{Y},\Theta)}{q(\Theta)}\}d\Theta
+\text{KL}(q(\Theta)\|p(\Theta|\mathcal{Y}))&=\int q(\Theta)\text{ln}\left\{\frac{q(\Theta)}{p(\Theta\mid\mathcal{Y})}\right\}d\Theta \\
+&=\text{ln}p(\mathcal{Y})-\int q(\Theta)\text{ln}\left\{\frac{p(\mathcal{Y},\Theta)}{q(\Theta)}\right\}d\Theta
 \end{split}
-\end{equation}</script><p>其中$\text{ln}p(\mathcal{Y})$表示模型证据（Evidence），则其下界（lower bound）可以定义为$\mathcal{L}(q)=\int q(\Theta)\text{ln}\{\frac{p(\mathcal{Y},\Theta)}{q(\Theta)}\}d\Theta$。因为模型证据是一个常量，当KL散度为0时，下界出现最大值，这就意味着$q(\Theta)=p(\mathcal{Y},\Theta)$。</p>
-<p>根据平均场理论（mean field theory）<br>
+\end{equation}</script><p>其中$\text{ln}p(\mathcal{Y})$表示模型证据（Evidence），则其下界（lower bound）可以定义为$\mathcal{L}(q)=\int q(\Theta)\text{ln}\{\frac{p(\mathcal{Y},\Theta)}{q(\Theta)}\}d\Theta$。因为模型证据是一个常量，当KL散度为0时，下界出现最大值，这就意味着$q(\Theta)=p(\mathcal{Y},\Theta)$。<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/machine-learning/变分贝叶斯推断笔记/#more" rel="contents">

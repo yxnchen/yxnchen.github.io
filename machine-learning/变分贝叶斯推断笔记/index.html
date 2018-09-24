@@ -108,18 +108,18 @@
 
 
 
-  <meta name="description" content="变分贝叶斯推断我们希望找到一个分布$q(\Theta)$来逼近真实后验分布$p(\Theta|\mathcal{Y})$，通过最小化KL散度可以实现上述目标，也即：  \begin{equation} \begin{split} \text{KL}(q(\Theta)\|p(\Theta|\mathcal{Y}))&amp;=\int q(\Theta)\text{ln}\{\frac{q(\Theta)">
+  <meta name="description" content="变分贝叶斯推断问题描述我们希望找到一个分布$q(\Theta)$来逼近真实后验分布$p(\Theta\mid\mathcal{Y})$，通过最小化KL散度可以实现上述目标，也即：  \begin{equation} \begin{split} \text{KL}(q(\Theta)\|p(\Theta|\mathcal{Y}))&amp;=\int q(\Theta)\text{ln}\left\{\fr">
 <meta name="keywords" content="Bayesian,Variational Inference">
 <meta property="og:type" content="article">
 <meta property="og:title" content="变分贝叶斯推断笔记">
 <meta property="og:url" content="http://yxnchen.github.io/machine-learning/变分贝叶斯推断笔记/index.html">
 <meta property="og:site_name" content="YXN">
-<meta property="og:description" content="变分贝叶斯推断我们希望找到一个分布$q(\Theta)$来逼近真实后验分布$p(\Theta|\mathcal{Y})$，通过最小化KL散度可以实现上述目标，也即：  \begin{equation} \begin{split} \text{KL}(q(\Theta)\|p(\Theta|\mathcal{Y}))&amp;=\int q(\Theta)\text{ln}\{\frac{q(\Theta)">
+<meta property="og:description" content="变分贝叶斯推断问题描述我们希望找到一个分布$q(\Theta)$来逼近真实后验分布$p(\Theta\mid\mathcal{Y})$，通过最小化KL散度可以实现上述目标，也即：  \begin{equation} \begin{split} \text{KL}(q(\Theta)\|p(\Theta|\mathcal{Y}))&amp;=\int q(\Theta)\text{ln}\left\{\fr">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-09-22T07:33:23.668Z">
+<meta property="og:updated_time" content="2018-09-24T08:54:09.099Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="变分贝叶斯推断笔记">
-<meta name="twitter:description" content="变分贝叶斯推断我们希望找到一个分布$q(\Theta)$来逼近真实后验分布$p(\Theta|\mathcal{Y})$，通过最小化KL散度可以实现上述目标，也即：  \begin{equation} \begin{split} \text{KL}(q(\Theta)\|p(\Theta|\mathcal{Y}))&amp;=\int q(\Theta)\text{ln}\{\frac{q(\Theta)">
+<meta name="twitter:description" content="变分贝叶斯推断问题描述我们希望找到一个分布$q(\Theta)$来逼近真实后验分布$p(\Theta\mid\mathcal{Y})$，通过最小化KL散度可以实现上述目标，也即：  \begin{equation} \begin{split} \text{KL}(q(\Theta)\|p(\Theta|\mathcal{Y}))&amp;=\int q(\Theta)\text{ln}\left\{\fr">
 
 
 
@@ -372,7 +372,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-09-22 15:33:23" itemprop="dateModified" datetime="2018-09-22T15:33:23+08:00">2018-09-22</time>
+                <time title="修改时间：2018-09-24 16:54:09" itemprop="dateModified" datetime="2018-09-24T16:54:09+08:00">2018-09-24</time>
               
             
           </span>
@@ -431,16 +431,71 @@
       
 
       
-        <h2 id="变分贝叶斯推断"><a href="#变分贝叶斯推断" class="headerlink" title="变分贝叶斯推断"></a>变分贝叶斯推断</h2><p>我们希望找到一个分布$q(\Theta)$来逼近真实后验分布$p(\Theta|\mathcal{Y})$，通过最小化KL散度可以实现上述目标，也即：</p>
+        <h2 id="变分贝叶斯推断"><a href="#变分贝叶斯推断" class="headerlink" title="变分贝叶斯推断"></a>变分贝叶斯推断</h2><h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>我们希望找到一个分布$q(\Theta)$来逼近真实后验分布$p(\Theta\mid\mathcal{Y})$，通过最小化KL散度可以实现上述目标，也即：</p>
 <script type="math/tex; mode=display">
 \begin{equation}
 \begin{split}
-\text{KL}(q(\Theta)\|p(\Theta|\mathcal{Y}))&=\int q(\Theta)\text{ln}\{\frac{q(\Theta)}{p(\Theta|\mathcal{Y})}\}d\Theta \\
-&=\text{ln}p(\mathcal{Y})-\int q(\Theta)\text{ln}\{\frac{p(\mathcal{Y},\Theta)}{q(\Theta)}\}d\Theta
+\text{KL}(q(\Theta)\|p(\Theta|\mathcal{Y}))&=\int q(\Theta)\text{ln}\left\{\frac{q(\Theta)}{p(\Theta\mid\mathcal{Y})}\right\}d\Theta \\
+&=\text{ln}p(\mathcal{Y})-\int q(\Theta)\text{ln}\left\{\frac{p(\mathcal{Y},\Theta)}{q(\Theta)}\right\}d\Theta
 \end{split}
-\end{equation}</script><p>其中$\text{ln}p(\mathcal{Y})$表示模型证据（Evidence），则其下界（lower bound）可以定义为$\mathcal{L}(q)=\int q(\Theta)\text{ln}\{\frac{p(\mathcal{Y},\Theta)}{q(\Theta)}\}d\Theta$。因为模型证据是一个常量，当KL散度为0时，下界出现最大值，这就意味着$q(\Theta)=p(\mathcal{Y},\Theta)$。</p>
-<p>根据平均场理论（mean field theory）<br><a id="more"></a></p>
-<h2 id="变分贝叶斯推断例子"><a href="#变分贝叶斯推断例子" class="headerlink" title="变分贝叶斯推断例子"></a>变分贝叶斯推断例子</h2><h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2>
+\end{equation}</script><p>其中$\text{ln}p(\mathcal{Y})$表示模型证据（Evidence），则其下界（lower bound）可以定义为$\mathcal{L}(q)=\int q(\Theta)\text{ln}\{\frac{p(\mathcal{Y},\Theta)}{q(\Theta)}\}d\Theta$。因为模型证据是一个常量，当KL散度为0时，下界出现最大值，这就意味着$q(\Theta)=p(\mathcal{Y},\Theta)$。<br><a id="more"></a></p>
+<h3 id="平均场理论"><a href="#平均场理论" class="headerlink" title="平均场理论"></a>平均场理论</h3><p>根据平均场理论（mean field theory），我们假设变分分布$q(\Theta)$可以被分解成各个变量分布的乘积，即可以写作：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+q(\Theta)=\prod_{j}q_j(\Theta_j)
+\end{equation}</script><p>这是针对该分布的唯一假设，其中每一个独立因子$q_j(\Theta_j)$的特定函数形式可以具体地轮流推导出来。通过最大化下届$\mathcal{L}(q)$，第$j$个因子的优化形式由下式给出：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\text{ln}q_j(\Theta_j)=\mathbb{E}_{q(\Theta\backslash\Theta_j)}\left[\text{ln}p(\mathcal{Y},\Theta)\right]+\text{const}
+\end{equation}</script><p>其中$\mathbb{E}_{q(\Theta\backslash\Theta_j)}\left[\cdot\right]$表示关于除$\Theta_j$外所有变量的$q$分布的期望。因为所有参数的分布都属于指数族分布，且都与其父节点共轭，因此我们能够通过公式(3)推导出$\Theta$中每个参数的后验分布更新的近似形式。</p>
+<h2 id="例子-一维高斯分布的参数求解"><a href="#例子-一维高斯分布的参数求解" class="headerlink" title="例子-一维高斯分布的参数求解"></a>例子-一维高斯分布的参数求解</h2><p>给定一组观测数据值$\mathcal{D}=\{x_1,x_2,\dots,x_N\}$，假定数据是独立地从高斯分布中抽取的，目标是通过最大化后验分布推断得到均值参数$\mu$和精度$\tau$，则其似然函数为</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+p(\mathcal{D}\mid \mu,\tau)&=\prod_{i=1}^{N}\left(\frac{\tau}{2\pi}\right)^{\frac{1}{2}}\text{exp}\left\{-\frac{\tau(x_i-\mu)^2}{2}\right\} \\
+&=\left(\frac{\tau}{2\pi}\right)^{\frac{N}{2}}\text{exp}\left\{-\frac{\tau}{2}\sum_{i=1}^{N}(x_i-\mu)^2\right\}
+\end{split}
+\end{equation}</script><p>同时引入参数$\mu$和$\tau$的共轭先验分布，其形式为</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+p(\mu\mid\tau)&= \mathcal{N}(\mu\mid\mu_{0},\left[\lambda_{0}\tau\right]^{-1})\\
+p(\tau)&= \text{Gam}(\tau\mid a_0,b_0)
+\end{split}
+\end{equation}</script><p>对后验概率分布的变分近似进行分解</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+q(\mu,\tau)=q_{\mu}(\mu)q_{\tau}(\tau)
+\end{equation}</script><p>根据公式(3)，可以推导出各个因子的优化形式，对于$q_{\mu}(\mu)$，我们有</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\text{ln}q_{\mu}^{*}(\mu)&=\mathbb{E}_{\tau}[\text{ln}p(\mathcal{D}\mid\mu,\tau)+\text{ln}p(\mu\mid\tau)]+\text{const} \\
+&=-\frac{\mathbb{E}[\tau]}{2}\left\{\sum_{i=1}^{N}(x_i-\mu)^2+\lambda_0(\mu-\mu_0)^2\right\}+\text{const}
+\end{split}
+\end{equation}</script><p>由共轭性，可以看到$q_{\mu}(\mu)$是一个高斯分布</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\lambda^{*}&=(\lambda_0+N)\mathbb{E}[\tau] \\
+\mu^{*}&=[\lambda^*]^{-1}(\lambda_0\mu_0+N\bar{x})\mathbb{E}[\tau] =\frac{\lambda_0\mu_0+N\bar{x}}{\lambda_0+N}
+\end{split}
+\end{equation}</script><p>同理，因子$q_{\tau}(\tau)$的最优形式为</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\text{ln}q_{\tau}^{*}(\tau)&=\mathbb{E}_{\mu}[\text{ln}p(\mathcal{D}\mid\mu,\tau)+\text{ln}p(\mu\mid\tau)+\text{ln}p(\tau)]+\text{const} \\
+&=(a_0-1)\text{ln}\tau-b_0\tau+\frac{N+1}{2}\text{ln}\tau \\
+&-\frac{1}{2}\mathbb{E}\mu\left[\sum_{i=1}^{N}(x_i-\mu)^2+\lambda_0(\mu-\mu_0)^2\right]+\text{const}
+\end{split}
+\end{equation}</script><p>因此$q_{\tau}(\tau)$是一个Gamma分布，参数为</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+a^{*}&=a_0+\frac{N+1}{2} \\
+b^{*}&=b_0+\frac{1}{2}\mathbb{E}\mu\left[\sum_{i=1}^{N}(x_i-\mu)^2+\lambda_0(\mu-\mu_0)^2\right]
+\end{split}
+\end{equation}</script><h2 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h2>
       
     </div>
 
@@ -642,7 +697,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#变分贝叶斯推断"><span class="nav-number">1.</span> <span class="nav-text">变分贝叶斯推断</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变分贝叶斯推断例子"><span class="nav-number">2.</span> <span class="nav-text">变分贝叶斯推断例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码实现"><span class="nav-number">3.</span> <span class="nav-text">代码实现</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#变分贝叶斯推断"><span class="nav-number">1.</span> <span class="nav-text">变分贝叶斯推断</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题描述"><span class="nav-number">1.1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#平均场理论"><span class="nav-number">1.2.</span> <span class="nav-text">平均场理论</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#例子-一维高斯分布的参数求解"><span class="nav-number">2.</span> <span class="nav-text">例子-一维高斯分布的参数求解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码示例"><span class="nav-number">3.</span> <span class="nav-text">代码示例</span></a></li></ol></div>
             
 
           </div>

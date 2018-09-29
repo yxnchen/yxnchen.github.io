@@ -117,7 +117,7 @@
 <meta property="og:description" content="变分贝叶斯推断问题描述假设当前有一个贝叶斯模型，且其中的参数都有相应的先验分布。同时，模型中还可能有潜变量，将其与各种参数标记为$\Theta$。同样地，把所有观测变量集合标记为$\mathcal{Y}$。因此，我们希望找到分布$q(\Theta)$来逼近真实后验分布$p(\Theta\mid\mathcal{Y})$，而这可以通过最小化KL散度实现，也即：  \begin{equation} \">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://owewhlo0r.bkt.clouddn.com/vb/vb_uG_result.png">
-<meta property="og:updated_time" content="2018-09-29T14:00:00.620Z">
+<meta property="og:updated_time" content="2018-09-29T14:03:01.613Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="变分贝叶斯推断笔记">
 <meta name="twitter:description" content="变分贝叶斯推断问题描述假设当前有一个贝叶斯模型，且其中的参数都有相应的先验分布。同时，模型中还可能有潜变量，将其与各种参数标记为$\Theta$。同样地，把所有观测变量集合标记为$\mathcal{Y}$。因此，我们希望找到分布$q(\Theta)$来逼近真实后验分布$p(\Theta\mid\mathcal{Y})$，而这可以通过最小化KL散度实现，也即：  \begin{equation} \">
@@ -366,7 +366,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-09-29 22:00:00" itemprop="dateModified" datetime="2018-09-29T22:00:00+08:00">2018-09-29</time>
+                <time title="修改时间：2018-09-29 22:03:01" itemprop="dateModified" datetime="2018-09-29T22:03:01+08:00">2018-09-29</time>
               
             
           </span>
@@ -509,8 +509,7 @@ b^{*}&=b_0+\frac{1}{2}\mathbb{E}\mu\left[\sum_{i=1}^{N}(x_i-\mu)^2+\lambda_0(\mu
 \begin{equation}
 \begin{split}
 \mathcal{L}(q)&=\mathbb{E}_{q}[\text{ln}p(\mathcal{Y},\Theta)]-\mathbb{E}_{q}[\text{ln}q(\Theta)] \\
-&=\mathbb{E}_{q(\mu,\tau)}[\text{ln}p(\mathcal{D}\mid\mu,\tau)]+\mathbb{E}_{q(\mu,\tau)}[\text{ln}p(\mu\mid\tau)]+\mathbb{E}_{q(\tau)}[\text{ln}p(\tau)] \\
-&-\mathbb{E}_{q(\mu)}[\text{ln}q(\mu)]-\mathbb{E}_{q(\tau)}[\text{ln}q(\tau)]
+&=\mathbb{E}_{q(\mu,\tau)}[\text{ln}p(\mathcal{D}\mid\mu,\tau)]+\mathbb{E}_{q(\mu,\tau)}[\text{ln}p(\mu\mid\tau)]+\mathbb{E}_{q(\tau)}[\text{ln}p(\tau)]-\mathbb{E}_{q(\mu)}[\text{ln}q(\mu)]-\mathbb{E}_{q(\tau)}[\text{ln}q(\tau)]
 \end{split}
 \end{equation}</script><p>上式各个部分可以通过下面公式计算得到，其中$\mathbb{E}_q[\mu^2]=\mathbb{E}_{\mu}[\mu^2]=(\mathbb{E}[\mu])^2+\text{Var}[\mu]$，$\mathbb{E}_q[\text{ln}\tau]=\mathbb{E}_{\tau}[\text{ln}\tau]=\psi(a)-\text{ln}b$，$\psi(\cdot)$为双伽马函数（digamma function）而$\Gamma(\cdot)$为伽马函数。</p>
 <script type="math/tex; mode=display">

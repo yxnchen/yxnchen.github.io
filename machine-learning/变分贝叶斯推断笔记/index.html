@@ -117,7 +117,7 @@
 <meta property="og:description" content="变分贝叶斯推断问题描述假设当前有一个贝叶斯模型，且其中的参数都有相应的先验分布。同时，模型中还可能有潜变量，将其与各种参数标记为$\Theta$。同样地，把所有观测变量集合标记为$\mathcal{Y}$。因此，我们希望找到分布$q(\Theta)$来逼近真实后验分布$p(\Theta\mid\mathcal{Y})$，而这可以通过最小化KL散度实现，也即：  \begin{equation} \">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://owewhlo0r.bkt.clouddn.com/vb/vb_uG_result.png">
-<meta property="og:updated_time" content="2018-09-29T14:03:01.613Z">
+<meta property="og:updated_time" content="2018-10-06T13:38:15.247Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="变分贝叶斯推断笔记">
 <meta name="twitter:description" content="变分贝叶斯推断问题描述假设当前有一个贝叶斯模型，且其中的参数都有相应的先验分布。同时，模型中还可能有潜变量，将其与各种参数标记为$\Theta$。同样地，把所有观测变量集合标记为$\mathcal{Y}$。因此，我们希望找到分布$q(\Theta)$来逼近真实后验分布$p(\Theta\mid\mathcal{Y})$，而这可以通过最小化KL散度实现，也即：  \begin{equation} \">
@@ -366,7 +366,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-09-29 22:03:01" itemprop="dateModified" datetime="2018-09-29T22:03:01+08:00">2018-09-29</time>
+                <time title="修改时间：2018-10-06 21:38:15" itemprop="dateModified" datetime="2018-10-06T21:38:15+08:00">2018-10-06</time>
               
             
           </span>
@@ -565,7 +565,7 @@ b^{*}&=b_0+\frac{1}{2}\mathbb{E}\mu\left[\sum_{i=1}^{N}(x_i-\mu)^2+\lambda_0(\mu
 <p>求解结果如下图所示，左上与右上两图中的<strong>红色实线</strong>表示生成观测数据模型参数的真值，<strong>红色虚线</strong>表示利用观测数据显式计算得到的模型参数的估计值，<strong>蓝色实线</strong>表示利用变分推断迭代求解的参数估计值。在本例子中，由于推断公式较简单，$\mathbb{E}[\mu]$的计算不依赖于$\mathbb{E}[\tau]$，所以算法在第二次迭代就已经收敛到显式计算的估计值。<br><img src="http://owewhlo0r.bkt.clouddn.com/vb/vb_uG_result.png" alt="result_converged"></p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
 <li>Christopher M. Bishop. “Pattern recognition and machine learning.” <em>Springer</em>, 2006.</li>
-<li><a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/05/prml-errata-1st-20110921.pdf" target="_blank" rel="noopener">PRML Errata 1st</a></li>
+<li>PRML Errata 1st: <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/05/prml-errata-1st-20110921.pdf" target="_blank" rel="noopener">https://www.microsoft.com/en-us/research/wp-content/uploads/2016/05/prml-errata-1st-20110921.pdf</a></li>
 <li>Qibin Zhao, Liqing Zhang, and Andrzej Cichocki. “Bayesian CP factorization of incomplete tensors with automatic rank determination.” <em>IEEE transactions on pattern analysis and machine intelligence</em>, 2015.</li>
 <li><a href="https://github.com/qbzhao/BCPF" target="_blank" rel="noopener">https://github.com/qbzhao/BCPF</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Gamma_distribution" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Gamma_distribution</a></li>

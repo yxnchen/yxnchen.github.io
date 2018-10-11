@@ -108,18 +108,18 @@
 
 
 
-  <meta name="description" content="贝叶斯泊松分解变分推断">
+  <meta name="description" content="贝叶斯泊松分解变分推断 \begin{equation} \begin{split} \text{ln}q_{z_{ij}}^{*}(z_{ij})&amp;=\mathbb{E}_{(\Theta\backslash z_{ij})}[\text{ln}p(z_{ij}\mid x_{ij},\theta_i,\beta_j)]+\text{const} \\ &amp;=\mathbb{E}_{(\Theta">
 <meta name="keywords" content="Bayesian,Variational Inference">
 <meta property="og:type" content="article">
 <meta property="og:title" content="贝叶斯泊松分解变分推断笔记">
 <meta property="og:url" content="http://yxnchen.github.io/machine-learning/贝叶斯泊松分解变分推断笔记/index.html">
 <meta property="og:site_name" content="YXN">
-<meta property="og:description" content="贝叶斯泊松分解变分推断">
+<meta property="og:description" content="贝叶斯泊松分解变分推断 \begin{equation} \begin{split} \text{ln}q_{z_{ij}}^{*}(z_{ij})&amp;=\mathbb{E}_{(\Theta\backslash z_{ij})}[\text{ln}p(z_{ij}\mid x_{ij},\theta_i,\beta_j)]+\text{const} \\ &amp;=\mathbb{E}_{(\Theta">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-10T12:20:27.982Z">
+<meta property="og:updated_time" content="2018-10-11T12:36:47.578Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="贝叶斯泊松分解变分推断笔记">
-<meta name="twitter:description" content="贝叶斯泊松分解变分推断">
+<meta name="twitter:description" content="贝叶斯泊松分解变分推断 \begin{equation} \begin{split} \text{ln}q_{z_{ij}}^{*}(z_{ij})&amp;=\mathbb{E}_{(\Theta\backslash z_{ij})}[\text{ln}p(z_{ij}\mid x_{ij},\theta_i,\beta_j)]+\text{const} \\ &amp;=\mathbb{E}_{(\Theta">
 
 
 
@@ -347,12 +347,24 @@
                 
               
 
-              <time title="创建时间：2018-10-10 20:18:38 / 修改时间：20:20:27" itemprop="dateCreated datePublished" datetime="2018-10-10T20:18:38+08:00">2018-10-10</time>
+              <time title="创建时间：2018-10-10 20:18:38" itemprop="dateCreated datePublished" datetime="2018-10-10T20:18:38+08:00">2018-10-10</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-10-11 20:36:47" itemprop="dateModified" datetime="2018-10-11T20:36:47+08:00">2018-10-11</time>
               
             
           </span>
@@ -411,7 +423,15 @@
       
 
       
-        <h2 id="贝叶斯泊松分解"><a href="#贝叶斯泊松分解" class="headerlink" title="贝叶斯泊松分解"></a>贝叶斯泊松分解</h2><h2 id="变分推断"><a href="#变分推断" class="headerlink" title="变分推断"></a>变分推断</h2>
+        <h2 id="贝叶斯泊松分解"><a href="#贝叶斯泊松分解" class="headerlink" title="贝叶斯泊松分解"></a>贝叶斯泊松分解</h2><h2 id="变分推断"><a href="#变分推断" class="headerlink" title="变分推断"></a>变分推断</h2><script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\text{ln}q_{z_{ij}}^{*}(z_{ij})&=\mathbb{E}_{(\Theta\backslash z_{ij})}[\text{ln}p(z_{ij}\mid x_{ij},\theta_i,\beta_j)]+\text{const} \\
+&=\mathbb{E}_{(\Theta\backslash z_{ij})}\left[\text{ln}\left(x_{ij}!\right)-\sum_{k=1}^{K}\text{ln}\left(z_{ijk}!\right)+\sum_{k=1}^{K}z_{ijk}\text{ln}(\theta_{ik}\beta_{jk})\right]+\text{const} \\
+&=\text{ln}(x_{ij}!)-\sum_{k=1}^{K}\text{ln}(z_{ijk}!)+\sum_{k=1}^{K}z_{ijk}\left(\mathbb{E}\text{ln}\theta_{ik}+\mathbb{E}\text{ln}\beta_{jk}\right)+\text{const} \\
+&=\text{ln}(x_{ij}!)-\sum_{k=1}^{K}\text{ln}(z_{ijk}!)+\sum_{k=1}^{K}z_{ijk}\text{ln}\left(e^{\mathbb{E}\text{ln}\theta_{ik}+\mathbb{E}\text{ln}\beta_{jk}}\right)+\text{const}
+\end{split}
+\end{equation}</script>
       
     </div>
 

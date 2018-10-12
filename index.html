@@ -367,7 +367,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-10-11 20:36:47" itemprop="dateModified" datetime="2018-10-11T20:36:47+08:00">2018-10-11</time>
+                <time title="修改时间：2018-10-12 13:34:58" itemprop="dateModified" datetime="2018-10-12T13:34:58+08:00">2018-10-12</time>
               
             
           </span>
@@ -424,11 +424,12 @@
 \begin{equation}
 \begin{split}
 \text{ln}q_{z_{ij}}^{*}(z_{ij})&=\mathbb{E}_{(\Theta\backslash z_{ij})}[\text{ln}p(z_{ij}\mid x_{ij},\theta_i,\beta_j)]+\text{const} \\
-&=\mathbb{E}_{(\Theta\backslash z_{ij})}\left[\text{ln}\left(x_{ij}!\right)-\sum_{k=1}^{K}\text{ln}\left(z_{ijk}!\right)+\sum_{k=1}^{K}z_{ijk}\text{ln}(\theta_{ik}\beta_{jk})\right]+\text{const} \\
-&=\text{ln}(x_{ij}!)-\sum_{k=1}^{K}\text{ln}(z_{ijk}!)+\sum_{k=1}^{K}z_{ijk}\left(\mathbb{E}\text{ln}\theta_{ik}+\mathbb{E}\text{ln}\beta_{jk}\right)+\text{const} \\
-&=\text{ln}(x_{ij}!)-\sum_{k=1}^{K}\text{ln}(z_{ijk}!)+\sum_{k=1}^{K}z_{ijk}\text{ln}\left(e^{\mathbb{E}\text{ln}\theta_{ik}+\mathbb{E}\text{ln}\beta_{jk}}\right)+\text{const}
+&=\mathbb{E}_{(\Theta\backslash z_{ij})}\left[\text{ln}\left(x_{ij}!\right)-\sum_{k=1}^{K}\text{ln}\left(z_{ijk}!\right)+\sum_{k=1}^{K}z_{ijk}\text{ln}(\frac{\theta_{ik}\beta_{jk}}{\sum_{k}\theta_{ik}\beta_{jk}})\right]+\text{const} \\
+&=\text{ln}(x_{ij}!)-\sum_{k=1}^{K}\text{ln}(z_{ijk}!)+\sum_{k=1}^{K}z_{ijk}\left(\mathbb{E}[\text{ln}\theta_{ik}]+\mathbb{E}[\text{ln}\beta_{jk}]-\mathbb{E}\left[\text{ln}\sum_{k}\theta_{ik}\beta_{jk}\right]\right)+\text{const} \\
+&=\text{ln}(x_{ij}!)-\sum_{k=1}^{K}\text{ln}(z_{ijk}!)+\sum_{k=1}^{K}z_{ijk}\text{ln}\left(e^{\mathbb{E}[\text{ln}\theta_{ik}]+\mathbb{E}[\text{ln}\beta_{jk}]}\right)+\text{const}
 \end{split}
-\end{equation}</script>
+\end{equation}</script><script type="math/tex; mode=display">
+\mathbb{E}[z_{ijk}]=x_{ij}\phi_{ijk}</script>
           
         
       

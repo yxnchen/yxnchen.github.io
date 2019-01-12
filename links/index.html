@@ -1,32 +1,99 @@
-extends includes/layout.pug
-
-block content
-  if page.type === 'tags'
-    .tag-cloud
-      .tag-cloud__title= _p('page.tag')
-        |  - 
-        span.tag-cloud__amount= site.tags.length
-      .tag-cloud-tags!= tagcloud({min_font: 12, max_font: 30, amount: 200, color: true, start_color: '#A4D8FA', end_color: '#0790E8'})
-    if page.comments !== false
-      include includes/comments/index.pug
-  else if page.type === 'categories'
-    #post-content
-      .category-lists
-        .category__title= _p('page.category')
-          |  - 
-          span.category__amount= site.categories.length
-        div!= list_categories()
-    if page.comments !== false
-      include includes/comments/index.pug
-  else if page.type === 'slides'
-    include ./includes/mixins/slide.pug
-    +slideArticle()
-    if page.comments !== false
-      include includes/comments/index.pug
-  else
-    article#page
-      h1= page.title
-      .article-container!= page.content
-    include includes/pagination.pug
-    if page.comments !== false
-      include includes/comments/index.pug
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="Favorite links"><meta name="keywords" content=""><meta name="author" content="yxnchen,undefined"><meta name="copyright" content="yxnchen"><title>Favorite links | YXN</title><link rel="shortcut icon" href="/my-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.5.6"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css?version=1.5.6"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><script><!-- hexo-inject:begin --><!-- hexo-inject:end -->var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+} </script><!-- hexo-inject:begin --><!-- hexo-inject:end --></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="author-info"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">yxnchen</div><div class="author-info__description text-center">Do not go gentle into that good night!</div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">2</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">2</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">1</span></a></div></div></div><nav class="no-bg" id="nav" style="background-image: url(true)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">YXN</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/about">About</a></span></div><div id="site-info"><div id="site-title">YXN</div><div id="site-sub-title"></div><div id="site-social-icons"> <a class="social-icon" href="https://github.com/yxnchen" target="_blank"><i class="fa fa-github"></i></a><a class="social-icon" href="http://weibo.com/yeegle" target="_blank"><i class="fa fa-weibo"></i></a></div></div></nav><div id="content-outer"><div class="layout" id="content-inner"><article id="page"><h1>Favorite links</h1><div class="article-container"><h2 id="Blog"><a href="#Blog" class="headerlink" title="Blog"></a>Blog</h2><ul>
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><li><code>colah’s blog</code>: [<a href="http://colah.github.io/" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>Economic Audit Knowledge Graph</code>: [<a href="https://github.com/mengxiaoxu/economic_audit_knowledge_graph" target="_blank" rel="noopener">Github</a>]</li>
+</ul>
+<h2 id="Tutorial"><a href="#Tutorial" class="headerlink" title="Tutorial"></a>Tutorial</h2><ul>
+<li><code>Higher-Order Data Analytics for Temporal Network Data</code>: [<a href="https://ingoscholtes.github.io/kdd2018-tutorial/" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>Learn Jupyter</code>: [<a href="https://github.com/od-do/learn_jupyter" target="_blank" rel="noopener">Github</a>]</li>
+</ul>
+<h2 id="Online-Courses"><a href="#Online-Courses" class="headerlink" title="Online Courses"></a>Online Courses</h2><ul>
+<li><code>CPSC522_Artificial Intelligent for Decision-Making</code>: [<a href="https://www.cs.ubc.ca/~poole/cs522/2018/index.html" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>10-803_Markov Logic Networks</code>: [<a href="https://homes.cs.washington.edu/~pedrod/803/" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>Computational Linear Algebra</code>: [<a href="http://www.fast.ai/2017/07/17/num-lin-alg/" target="_blank" rel="noopener">Link</a>] [<a href="https://github.com/fastai/numerical-linear-algebra" target="_blank" rel="noopener">Github</a>]</li>
+<li><code>Deep Learning and Bayesian Methods</code>: [<a href="https://github.com/bayesgroup/deepbayes-2018" target="_blank" rel="noopener">Github</a>] [<a href="https://www.youtube.com/playlist?list=PLe5rNUydzV9Q01vWCP9BV7NhJG3j7mz62" target="_blank" rel="noopener">Youtube</a>] [<a href="https://drive.google.com/drive/folders/1rJ-HTN3sNTvhJXPoXEEhfGlZWtjNY26C" target="_blank" rel="noopener">PPT</a>] [<a href="http://t.cn/Rs888HU" target="_blank" rel="noopener">Wechat</a>]</li>
+<li><code>TensorFlow Course</code>: [<a href="https://github.com/open-source-for-science/TensorFlow-Course" target="_blank" rel="noopener">Github</a>]</li>
+<li><code>Awesome Thesis(硕士论文写作技巧资源)</code>: [<a href="https://github.com/ocean1/awesome-thesis" target="_blank" rel="noopener">Github</a>]</li>
+</ul>
+<h2 id="Online-Books"><a href="#Online-Books" class="headerlink" title="Online Books"></a>Online Books</h2><ul>
+<li><code>Mathematics for Machine Learning</code>: [<a href="https://mml-book.github.io/" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>English Level-up Tips for Chinese</code>: [<a href="https://byoungd.gitbooks.io/english-level-up-tips-for-chinese/" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>Forecasting: Principles and Practice</code>: [<a href="https://otexts.org/fpp2/" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>Interpretable Machine Learning</code>: [<a href="https://christophm.github.io/interpretable-ml-book/" target="_blank" rel="noopener">Link</a>] [<a href="https://github.com/christophM/interpretable-ml-book" target="_blank" rel="noopener">Github</a>]</li>
+<li><code>Useful Cheatsheets</code>: [<a href="https://devhints.io/" target="_blank" rel="noopener">Link</a>]</li>
+</ul>
+<h2 id="Machine-Learning"><a href="#Machine-Learning" class="headerlink" title="Machine Learning"></a>Machine Learning</h2><ul>
+<li><code>Machine Learning Notes-Xu Yida</code>: [<a href="https://github.com/roboticcam/machine-learning-notes" target="_blank" rel="noopener">Github</a>]</li>
+<li><code>Machine Learning Article Monthly</code>: [<a href="https://github.com/Mybridge/machine-learning-articles" target="_blank" rel="noopener">Github</a>]</li>
+<li><code>Bayesian Machine Learning</code>: [<a href="https://github.com/krasserm/bayesian-machine-learning" target="_blank" rel="noopener">Github</a>]</li>
+<li><code>Deep Learning 500 Questions</code>: [<a href="https://github.com/scutan90/DeepLearning-500-questions" target="_blank" rel="noopener">Github</a>]</li>
+<li><code>pomegranate</code>: [<a href="https://github.com/jmschrei/pomegranate" target="_blank" rel="noopener">Github</a>]</li>
+</ul>
+<h2 id="Research-group"><a href="#Research-group" class="headerlink" title="Research group"></a>Research group</h2><ul>
+<li><code>数据库与智能信息检索实验室(DBIIR)</code>: [<a href="http://iir.ruc.edu.cn/zh/research-overview" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>Urban Computing</code>: [<a href="http://icity.jd.com/#/" target="_blank" rel="noopener">JD</a>] [<a href="https://www.microsoft.com/en-us/research/project/urban-computing/" target="_blank" rel="noopener">Microsoft</a>]</li>
+<li><code>Center on Knowledge Graphs</code>: [<a href="http://usc-isi-i2.github.io/home/" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>Data and Web Science Group</code>: [<a href="https://dws.informatik.uni-mannheim.de/en/home/" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>Mobility Lab</code>: [<a href="https://mobilitylab.org/" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>Urban Mobility Lab at MIT</code>: [<a href="https://mobility.mit.edu/" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>Future Urban Mobility</code>: [<a href="https://fm.smart.mit.edu/" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>Microsoft Research Lab</code>: [<a href="https://www.microsoft.com/en-us/research/lab/microsoft-research-new-england/" target="_blank" rel="noopener">@New England</a>] [<a href="http://nicolofusi.com/" target="_blank" rel="noopener">Nicolo Fusi</a>] [<a href="https://www.microsoft.com/en-us/research/lab/microsoft-research-asia/" target="_blank" rel="noopener">@Asia</a>] [<a href="https://www.microsoft.com/en-us/research/lab/microsoft-research-cambridge/" target="_blank" rel="noopener">@Cambridge</a>] [<a href="https://www.microsoft.com/en-us/research/lab/microsoft-research-new-york/" target="_blank" rel="noopener">@New York</a>] [<a href="https://www.microsoft.com/en-us/research/lab/microsoft-research-redmond/" target="_blank" rel="noopener">@Redmond</a>] [<a href="https://www.microsoft.com/en-us/research/lab/microsoft-research-india/" target="_blank" rel="noopener">@India</a>]</li>
+<li><code>Luis Bettencourt</code>: [<a href="http://tuvalu.santafe.edu/~bettencourt/index/Home.html" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>Computing + Mathematical Sciences(Anima Anandkumar)</code>: [<a href="http://tensorlab.cms.caltech.edu/users/anima/" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>USC Melady Lab</code>: [<a href="http://www-bcf.usc.edu/~liu32/melady.html" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>HKUST ITS Lab</code>: [<a href="https://sites.google.com/view/hkustits/contact-us" target="_blank" rel="noopener">Link</a>] [<a href="https://sites.google.com/site/hkustdidilab" target="_blank" rel="noopener">HKUST-DIDI Lab</a>] [<a href="http://cehyang.people.ust.hk/" target="_blank" rel="noopener">Hai Yang</a>]</li>
+<li><code>Beihang Interest Group on SmartCity</code>: [<a href="https://www.bigscity.com/" target="_blank" rel="noopener">Link</a>)]</li>
+<li><code>Qibin Zhao</code>: [<a href="https://qibinzhao.github.io/" target="_blank" rel="noopener">Link</a>] [<a href="https://github.com/qbzhao/" target="_blank" rel="noopener">Github</a>]</li>
+<li><code>Mingyuan Zhou</code>: [<a href="https://mingyuanzhou.github.io/" target="_blank" rel="noopener">Link</a>] [<a href="https://github.com/mingyuanzhou/" target="_blank" rel="noopener">Github</a>]</li>
+<li><code>David B. Dunson</code>: [<a href="https://stat.duke.edu/people/david-b-dunson" target="_blank" rel="noopener">Duke</a>] [<a href="https://github.com/david-dunson" target="_blank" rel="noopener">Github</a>] [<a href="https://arxiv.org/search/stat?searchtype=author&amp;query=Dunson%2C%20D%20B" target="_blank" rel="noopener">arXiv</a>]</li>
+<li><code>Lawrence Carin’s Research Group</code>: [<a href="http://people.ee.duke.edu/~lcarin/" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>David M. Blei</code>: [<a href="http://www.cs.columbia.edu/~blei/" target="_blank" rel="noopener">Link</a>] [<a href="https://github.com/Blei-Lab/" target="_blank" rel="noopener">Github</a>]</li>
+<li><code>Yisong Yue</code>: [<a href="http://www.yisongyue.com/index.php" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>Emtiyaz Khan</code>: [<a href="https://emtiyaz.github.io/" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>Zhenhui (Jessie) Li</code>: [<a href="https://faculty.ist.psu.edu/jessieli/Site/index.html" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>Qi (Rose) Yu</code>: [<a href="http://roseyu.com/" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>Yizhou Sun</code>: [<a href="http://web.cs.ucla.edu/~yzsun/index.html" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>Tom Minka</code>: [<a href="https://tminka.github.io/" target="_blank" rel="noopener">Link</a>][<a href="https://github.com/tminka/" target="_blank" rel="noopener">Github</a>]</li>
+<li><code>Xuan Song</code>: [<a href="http://shiba.iis.u-tokyo.ac.jp/song/" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>Lijun Sun</code>: [<a href="https://lijunsun.github.io/" target="_blank" rel="noopener">Link</a>][<a href="https://github.com/lijunsun/" target="_blank" rel="noopener">Github</a>]</li>
+<li><code>Freddy Lecue</code>: [<a href="http://www-sop.inria.fr/members/Freddy.Lecue/index.html" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>THUNLP</code>: [<a href="http://nlp.csai.tsinghua.edu.cn/site2/index.php/en" target="_blank" rel="noopener">Link</a>] [<a href="http://nlp.csai.tsinghua.edu.cn/~lzy/index.html" target="_blank" rel="noopener">Zhiyuan Liu</a>|<a href="https://github.com/zibuyu" target="_blank" rel="noopener">Github</a>]</li>
+<li><code>Florian Klimm</code>: [<a href="http://www.dtc.ox.ac.uk/people/14/klimmf/index.html" target="_blank" rel="noopener">Link</a>] [<a href="https://github.com/floklimm/" target="_blank" rel="noopener">Github</a>]</li>
+<li><code>Huajun Chen(浙江大学陈华钧)</code>: [<a href="https://dblp.org/pers/hd/c/Chen:Huajun" target="_blank" rel="noopener">DBLP</a>]</li>
+<li><code>Shandian Zhe</code>: [<a href="https://www.cs.utah.edu/~zhe/" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>Shuheng Zhu</code>: [<a href="http://www.zhuhengshu.com/" target="_blank" rel="noopener">Link</a>]</li>
+</ul>
+<h2 id="Open-Source"><a href="#Open-Source" class="headerlink" title="Open Source"></a>Open Source</h2><ul>
+<li><code>OpenITS</code>: [<a href="http://www.openits.cn/" target="_blank" rel="noopener">Link</a>] [<a href="https://github.com/sysuits" target="_blank" rel="noopener">Github</a>]</li>
+<li><code>出行云(Transport Data)</code>: [<a href="https://transportdata.cn/" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>Uber Open Source</code>: [<a href="https://uber.github.io/" target="_blank" rel="noopener">Link</a>] [<a href="https://github.com/uber" target="_blank" rel="noopener">Github</a>]</li>
+<li><code>Microsoft Open Source</code>: [<a href="https://opensource.microsoft.com/" target="_blank" rel="noopener">Link</a>] [<a href="https://github.com/Microsoft" target="_blank" rel="noopener">Github</a>]</li>
+<li><code>Google Open Source</code>: [<a href="https://opensource.google.com/" target="_blank" rel="noopener">Link</a>] [<a href="https://github.com/google" target="_blank" rel="noopener">Github</a>] [<a href="https://github.com/GoogleChromeLabs" target="_blank" rel="noopener">GoogleChromeLabs</a>]</li>
+<li><code>Facebook Open Source</code>: [<a href="https://opensource.fb.com/" target="_blank" rel="noopener">Link</a>] [<a href="https://github.com/facebook" target="_blank" rel="noopener">Github</a>] [<a href="https://github.com/facebookresearch" target="_blank" rel="noopener">Facebook Research</a>] [<a href="https://github.com/facebookincubator" target="_blank" rel="noopener">Facebook Incubator</a>]</li>
+<li><code>DeepMind</code>: [<a href="http://www.deepmind.com/" target="_blank" rel="noopener">Link</a>] [<a href="https://github.com/deepmind" target="_blank" rel="noopener">Github</a>]</li>
+<li><code>THUNLP</code>: [<a href="https://github.com/thunlp" target="_blank" rel="noopener">Github</a>] [<a href="http://openke.thunlp.org/" target="_blank" rel="noopener">OpenKE</a>]</li>
+<li><code>BYU-PCCL</code>: [<a href="https://pcc.cs.byu.edu/" target="_blank" rel="noopener">Link</a>] [<a href="https://github.com/BYU-PCCL" target="_blank" rel="noopener">Github</a>]</li>
+</ul>
+<h2 id="Data-Visualization"><a href="#Data-Visualization" class="headerlink" title="Data Visualization"></a>Data Visualization</h2><ul>
+<li><code>Vega</code>: [<a href="http://vega.github.io/vega" target="_blank" rel="noopener">Vega</a>] <a href="https://vega.github.io/vega-lite/" target="_blank" rel="noopener">[Vega Lite]</a></li>
+<li><code>GeoGebra</code>: [<a href="https://www.geogebra.org/" target="_blank" rel="noopener">Link</a>]</li>
+<li><code>The Economist Graphic Detail data</code>: [<a href="https://www.economist.com/graphic-detail/" target="_blank" rel="noopener">Link</a>] [<a href="https://github.com/TheEconomist/graphic-detail-data" target="_blank" rel="noopener">Github</a>]</li>
+<li><code>InteractiveGraph</code>: [<a href="https://github.com/bluejoe2008/InteractiveGraph" target="_blank" rel="noopener">Github</a>]</li>
+<li><code>Chartify(Python)</code>: [<a href="https://github.com/spotify/chartify" target="_blank" rel="noopener">chartify</a>]</li>
+<li><code>Mapbox Style Specification Editor</code>: [<a href="http://maputnik.github.io/editor/" target="_blank" rel="noopener">Link</a>]</li>
+</ul>
+<h2 id="Useful-Tools"><a href="#Useful-Tools" class="headerlink" title="Useful Tools"></a>Useful Tools</h2><ul>
+<li><code>图片处理</code>: [<a href="https://realfavicongenerator.net/" target="_blank" rel="noopener">Favicon Generator</a>|<a href="http://www.colinkeany.com/favicon-checker/" target="_blank" rel="noopener">Favicon Checker</a>] [<a href="https://lvwenhan.com/convertico/" target="_blank" rel="noopener">岁寒</a>] [<a href="https://jinaconvert.com/cn/" target="_blank" rel="noopener">jinaconvert</a>] [<a href="https://tinypng.com/" target="_blank" rel="noopener">tinypng</a>] [<a href="http://bigjpg.com/" target="_blank" rel="noopener">bigjpg</a>] [<a href="http://waifu2x.udp.jp/" target="_blank" rel="noopener">waifu2x</a>] [<a href="http://www.aigei.com/bgremover/" target="_blank" rel="noopener">BgRemover</a>] [<a href="https://squoosh.app/" target="_blank" rel="noopener">Squoosh</a>]</li>
+<li><code>小工具</code>: [<a href="https://witeboard.com/" target="_blank" rel="noopener">witeboard</a>] [<a href="https://draw.io" target="_blank" rel="noopener">draw.io</a>] [<a href="http://wecatch.me/china_regions/" target="_blank" rel="noopener">China Regions</a>]</li>
+<li><code>代码美化</code>: [<a href="http://codezen.rishimohan.me/" target="_blank" rel="noopener">CodeZen</a>] [<a href="https://dawnlabs.io/carbon" target="_blank" rel="noopener">Carbon</a>]</li>
+<li><code>写作</code>: [<a href="https://www.mathcha.io/" target="_blank" rel="noopener">mathcha</a>] [<a href="https://github.com/koka-lang/madoko" target="_blank" rel="noopener">madoko</a>]</li>
+</ul>
+</div></article><nav id="pagination"><div class="pagination"></div></nav></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2013 - 2019 By yxnchen</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_site_uv"><i class="fa fa-user"></i><span id="busuanzi_value_site_uv"></span><span></span></span><span class="footer-separator">|</span><span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i><span id="busuanzi_value_site_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.5.6"></script><script src="/js/fancybox.js?version=1.5.6"></script><script src="/js/sidebar.js?version=1.5.6"></script><script src="/js/copy.js?version=1.5.6"></script><script src="/js/fireworks.js?version=1.5.6"></script><script src="/js/transition.js?version=1.5.6"></script><script src="/js/scroll.js?version=1.5.6"></script><script src="/js/head.js?version=1.5.6"></script><!-- hexo-inject:begin --><!-- hexo-inject:end --></body></html>

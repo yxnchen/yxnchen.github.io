@@ -1,98 +1,173 @@
-extends includes/layout.pug
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="变分贝叶斯推断笔记"><meta name="keywords" content="Bayesian,Variational Inference"><meta name="author" content="yxnchen,undefined"><meta name="copyright" content="yxnchen"><title>变分贝叶斯推断笔记 | YXN</title><link rel="shortcut icon" href="/my-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.5.6"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css?version=1.5.6"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><script><!-- hexo-inject:begin --><!-- hexo-inject:end -->var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+} </script><!-- hexo-inject:begin --><!-- hexo-inject:end --></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#变分贝叶斯推断"><span class="toc-number">1.</span> <span class="toc-text">变分贝叶斯推断</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题描述"><span class="toc-number">1.1.</span> <span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#平均场理论"><span class="toc-number">1.2.</span> <span class="toc-text">平均场理论</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#变分下界"><span class="toc-number">1.3.</span> <span class="toc-text">变分下界</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#例子-一元高斯模型"><span class="toc-number">2.</span> <span class="toc-text">例子-一元高斯模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#模型推断"><span class="toc-number">2.1.</span> <span class="toc-text">模型推断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码示例"><span class="toc-number">2.2.</span> <span class="toc-text">代码示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#例子-混合高斯模型"><span class="toc-number">3.</span> <span class="toc-text">例子-混合高斯模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#模型推断-1"><span class="toc-number">3.1.</span> <span class="toc-text">模型推断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码示例-1"><span class="toc-number">3.2.</span> <span class="toc-text">代码示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">4.</span> <span class="toc-text">参考</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">yxnchen</div><div class="author-info__description text-center">Do not go gentle into that good night!</div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">2</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">2</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">1</span></a></div></div></div><div id="content-outer"><div class="no-bg" id="top-container" style="background-image: url(true)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">YXN</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/about">About</a></span></div><div id="post-info"><div id="post-title">变分贝叶斯推断笔记</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2018-09-20</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/machine-learning/">machine-learning</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h2 id="变分贝叶斯推断"><a href="#变分贝叶斯推断" class="headerlink" title="变分贝叶斯推断"></a>变分贝叶斯推断</h2><h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>假设当前有一个贝叶斯模型，且其中的参数都有相应的先验分布。同时，模型中还可能有潜变量，将其与各种参数标记为$\Theta$。同样地，把所有观测变量集合标记为$\mathcal{Y}$。因此，我们希望找到分布$q(\Theta)$来逼近真实后验分布$p(\Theta\mid\mathcal{Y})$，而这可以通过最小化KL散度实现，也即：</p>
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\text{KL}(q(\Theta)\|p(\Theta|\mathcal{Y}))&=\int q(\Theta)\text{ln}\left\{\frac{q(\Theta)}{p(\Theta\mid\mathcal{Y})}\right\}d\Theta \\
+&=\text{ln}p(\mathcal{Y})-\int q(\Theta)\text{ln}\left\{\frac{p(\mathcal{Y},\Theta)}{q(\Theta)}\right\}d\Theta
+\end{split}
+\end{equation}</script><p>其中$\text{ln}p(\mathcal{Y})$表示模型证据（Evidence），则其下界（lower bound）可以定义为$\mathcal{L}(q)=\int q(\Theta)\text{ln}\{\frac{p(\mathcal{Y},\Theta)}{q(\Theta)}\}d\Theta$。因为模型证据是一个常量，当KL散度为0时，下界出现最大值，这就意味着$q(\Theta)=p(\mathcal{Y},\Theta)$。<br><a id="more"></a></p>
+<h3 id="平均场理论"><a href="#平均场理论" class="headerlink" title="平均场理论"></a>平均场理论</h3><p>根据平均场理论（mean field theory），我们假设变分分布$q(\Theta)$可以被分解成各组变量分布的乘积，即可以写作：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+q(\Theta)=\prod_{j}^{M}q_j(\Theta_j)
+\end{equation}</script><p>这是针对该分布的唯一假设，其中每一个独立因子$q_j(\Theta_j)$的特定函数形式可以具体地一个个推导出来。通过最大化下届$\mathcal{L}(q)$，第$j$个因子的优化形式由下式给出：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\text{ln}q_j(\Theta_j)=\mathbb{E}_{q(\Theta\backslash\Theta_j)}\left[\text{ln}p(\mathcal{Y},\Theta)\right]+\text{const}
+\end{equation}</script><p>其中$\mathbb{E}_{q(\Theta\backslash\Theta_j)}\left[\cdot\right]$表示关于除$\Theta_j$外所有变量的$q$分布的期望。因为所有参数的分布都属于指数族分布，且都与其父节点共轭，因此我们能够通过公式(3)推导出$\Theta$中每个参数的后验分布更新的近似形式。</p>
+<h3 id="变分下界"><a href="#变分下界" class="headerlink" title="变分下界"></a>变分下界</h3><p>在模型计算时，可以通过直接计算变分下界$\mathcal{L}(q)$来判断算法是否收敛，因为在每一次迭代中变分下界不减。变分下界可以通过下式进行计算</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\mathcal{L}(q)&=\int q(\Theta)\text{ln}\left\{\frac{p(\mathcal{Y},\Theta)}{p(\Theta)}\right\}d\Theta \\
+&=\mathbb{E}_{q}[\text{ln}p(\mathcal{Y},\Theta)]-\mathbb{E}_{q}[\text{ln}q(\Theta)] \\
+&=\mathbb{E}_{q}[\text{ln}p(\mathcal{Y}\mid\Theta)]+\mathbb{E}_{q}[\text{ln}p(\Theta)]-\sum_{j}\mathbb{E}_{q_j(\Theta_j)}[\text{ln}q_j(\Theta_j)]
+\end{split}
+\end{equation}</script><p>其中第一项表示联合分布的后验期望，而第二项则表示后验$q$分布的熵$H(q(\Theta))=-\mathbb{E}_{q}[\text{ln}p(q(\Theta))]$。</p>
+<h2 id="例子-一元高斯模型"><a href="#例子-一元高斯模型" class="headerlink" title="例子-一元高斯模型"></a>例子-一元高斯模型</h2><h3 id="模型推断"><a href="#模型推断" class="headerlink" title="模型推断"></a>模型推断</h3><p>给定一组观测数据值$\mathcal{D}=\{x_1,x_2,\dots,x_N\}$，假定数据是独立地从高斯分布中抽取的，目标是通过最大化后验分布推断得到均值参数$\mu$和精度参数$\tau$，其似然函数为</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+p(\mathcal{D}\mid \mu,\tau)&=\prod_{i=1}^{N}\left(\frac{\tau}{2\pi}\right)^{\frac{1}{2}}\text{exp}\left\{-\frac{\tau(x_i-\mu)^2}{2}\right\} \\
+&=\left(\frac{\tau}{2\pi}\right)^{\frac{N}{2}}\text{exp}\left\{-\frac{\tau}{2}\sum_{i=1}^{N}(x_i-\mu)^2\right\}
+\end{split}
+\end{equation}</script><p>同时引入参数$\mu$和$\tau$的共轭先验分布，其形式为</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+p(\mu\mid\tau)&= \mathcal{N}(\mu\mid\mu_{0},\left[\lambda_{0}\tau\right]^{-1})\\
+p(\tau)&= \text{Gam}(\tau\mid a_0,b_0)
+\end{split}
+\end{equation}</script><p>则其联合分布可以表示为</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+p(\mathcal{D},\mu,\tau)=p(\mathcal{D}\mid\mu,\tau)p(\mu\mid\tau)p(\tau)
+\end{split}
+\end{equation}</script><p>对后验概率分布的变分近似进行分解</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+q(\mu,\tau)=q_{\mu}(\mu)q_{\tau}(\tau)
+\end{equation}</script><p>根据公式(3)，可以推导出各个因子的优化形式，对于$q_{\mu}(\mu)$，我们有</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\text{ln}q_{\mu}^{*}(\mu)&=\mathbb{E}_{\tau}[\text{ln}p(\mathcal{D}\mid\mu,\tau)+\text{ln}p(\mu\mid\tau)]+\text{const} \\
+&=-\frac{\mathbb{E}[\tau]}{2}\left\{\sum_{i=1}^{N}(x_i-\mu)^2+\lambda_0(\mu-\mu_0)^2\right\}+\text{const} \\
+&=-\frac{1}{2}\left\{(\lambda_0+N)\mathbb{E}[\tau]\mu^2-2(\lambda_0\mu_0+N\bar{x})\mathbb{E}[\tau]\mu\right\}+\text{const}
+\end{split}
+\end{equation}</script><p>由共轭性，可以看到$q_{\mu}(\mu)$是一个高斯分布，其参数为</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\lambda^{*}&=(\lambda_0+N)\mathbb{E}[\tau] \\
+\mu^{*}&=[\lambda^*]^{-1}(\lambda_0\mu_0+N\bar{x})\mathbb{E}[\tau] =\frac{\lambda_0\mu_0+N\bar{x}}{\lambda_0+N}
+\end{split}
+\end{equation}</script><p>同理，因子$q_{\tau}(\tau)$的最优形式为</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\text{ln}q_{\tau}^{*}(\tau)&=\mathbb{E}_{\mu}[\text{ln}p(\mathcal{D}\mid\mu,\tau)+\text{ln}p(\mu\mid\tau)+\text{ln}p(\tau)]+\text{const} \\
+&=(a_0-1+\frac{N+1}{2})\text{ln}\tau-\left\{b_0+\frac{1}{2}\mathbb{E}\mu\left[\sum_{i=1}^{N}(x_i-\mu)^2+\lambda_0(\mu-\mu_0)^2\right]\right\}\tau+\text{const}
+\end{split}
+\end{equation}</script><p>因此$q_{\tau}(\tau)$是一个Gamma分布，参数为</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+a^{*}&=a_0+\frac{N+1}{2} \\
+b^{*}&=b_0+\frac{1}{2}\mathbb{E}\mu\left[\sum_{i=1}^{N}(x_i-\mu)^2+\lambda_0(\mu-\mu_0)^2\right]
+\end{split}
+\end{equation}</script><p>为了评估模型的收敛性，我们进一步计算变分下界，其公式如下</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\mathcal{L}(q)&=\mathbb{E}_{q}[\text{ln}p(\mathcal{Y},\Theta)]-\mathbb{E}_{q}[\text{ln}q(\Theta)] \\
+&=\mathbb{E}_{q(\mu,\tau)}[\text{ln}p(\mathcal{D}\mid\mu,\tau)]+\mathbb{E}_{q(\mu,\tau)}[\text{ln}p(\mu\mid\tau)]+\mathbb{E}_{q(\tau)}[\text{ln}p(\tau)]-\mathbb{E}_{q(\mu)}[\text{ln}q(\mu)]-\mathbb{E}_{q(\tau)}[\text{ln}q(\tau)]
+\end{split}
+\end{equation}</script><p>上式各个部分可以通过下面公式计算得到，其中$\mathbb{E}_q[\mu^2]=\mathbb{E}_{\mu}[\mu^2]=(\mathbb{E}[\mu])^2+\text{Var}[\mu]$，$\mathbb{E}_q[\text{ln}\tau]=\mathbb{E}_{\tau}[\text{ln}\tau]=\psi(a)-\text{ln}b$，$\psi(\cdot)$为双伽马函数（digamma function）而$\Gamma(\cdot)$为伽马函数。</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\mathbb{E}_{q}[\text{ln}p(\mathcal{D}\mid\mu,\tau)]&=-\frac{N}{2}\text{ln}(2\pi)+\frac{N}{2}\mathbb{E}_q[\text{ln}\tau]-\frac{1}{2}\mathbb{E}_q[\tau]\mathbb{E}_q[\sum_{i=1}^{N}(x_i-\mu)^2] \\
+&=-\frac{N}{2}\text{ln}(2\pi)+\frac{N}{2}(\psi(a^*)-\text{ln}(b^*))-\frac{a^*}{2b^*}\left\{\sum_{i=1}^{N}x_i^2-2\mu^*\sum_{i=1}^{N}x_i+\mathbb{E}_q[\mu^2]\right\} \\
+\end{split}
+\end{equation}</script><script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\mathbb{E}_{q}[\text{ln}p(\mu\mid\tau)]&=-\frac{1}{2}\text{ln}(2\pi)+\frac{1}{2}\mathbb{E}_q[\text{ln}(\lambda_0\tau)]-\frac{\lambda_0}{2}\mathbb{E}_q[\tau]\mathbb{E}_q[(\mu-\mu_0)^2] \\
+&=-\frac{1}{2}\text{ln}(2\pi)+\frac{\text{ln}\lambda_0}{2}+\frac{1}{2}(\psi(a^*)-\text{ln}(b^*))-\frac{\lambda_0 a^*}{2b^*}\left\{\mathbb{E}_q[\mu^2]-2\mu_0\mu^*+\mu_0^2\right\} \\
+\end{split}
+\end{equation}</script><script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\mathbb{E}_{q}[\text{ln}p(\tau)]&=-\text{ln}\Gamma(a_0)+a_0\text{ln}b_0+(a_0-1)\mathbb{E}_q[\text{ln}\tau]-b_0\mathbb{E}_q[\tau] \\
+&=-\text{ln}\Gamma(a_0)+a_0\text{ln}b_0+(a_0-1)(\psi(a^*)-\text{ln}b^*)-b_0\frac{a^*}{b^*}
+\end{split}
+\end{equation}</script><script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+-\mathbb{E}_{q}[\text{ln}q(\mu)]&=\frac{1}{2}\text{ln}(2\pi)-\frac{\text{ln}\lambda^*}{2}+\frac{\lambda^*}{2}\left\{\mathbb{E}_q[\mu^2]-2(\mu^*)^2+(\mu^*)^2\right\} \\
+&=\frac{1}{2}\text{ln}(2\pi)-\frac{\text{ln}\lambda^*}{2}+\frac{1}{2}
+\end{split}
+\end{equation}</script><script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+-\mathbb{E}_{q}[\text{ln}q(\tau)]&=\text{ln}\Gamma(a^*)-(a^*-1)\psi(a^*)-\text{ln}b^*+a^*
+\end{split}
+\end{equation}</script><p>至此，我们得到了关于参数$\mu$与$\tau$最优分布的表达式，且各自依赖于另一个分布的计算所得的一阶矩或二阶矩。因此通过初始化参数的值，可以通过不断迭代计算出后验分布。</p>
+<p>在此例子中，由于模型简单且参数数量只有两个，因此我们可以通过直接求解上式的因子找到显示解。首先我们可以通过设置无信息先验（noninformative prior）来简化上述表达式，也即$\mu_0=\lambda_0=a_0=b_0=0$。根据Gamma分布的均值计算公式，我们有</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\frac{1}{\mathbb{E}[\tau]}=\frac{b^*}{a^*}=\mathbb{E}\left[\frac{1}{N+1}\sum_{i=1}^{N}(x_i-\mu)^2\right]=\frac{N}{N+1}(\overline{x^{2}}-2\bar{x}\mathbb{E}[\mu]+\mathbb{E}[\mu^2])
+\end{split}
+\end{equation}</script><p>由公式(10)，我们可以获得近似分布$q_\mu(\mu)$的一阶矩与二阶矩</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\mathbb{E}[\mu]=\bar{x}, \mathbb{E}[\mu^2]=\bar{x}^2+\frac{1}{N\mathbb{E}[\tau]}
+\end{split}
+\end{equation}</script><p>将其代入公式(19)，可以解出$\mathbb{E}[\tau]$</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\frac{1}{\mathbb{E}[\tau]}=\overline{x^2}-\bar{x}^2
+\end{equation}=\frac{1}{N}\sum_{i=1}^{N}(x_i-\bar{x})^2</script><h3 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h3><p>上节一元高斯的求解MATLAB代码如下所示，首先通过随机数生成器生成$N$个高斯分布的随机数作为模型观测值<br><figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">clear;</span><br><span class="line"><span class="comment">% 生成高斯分布随机数</span></span><br><span class="line">mu_real = <span class="number">1</span>;</span><br><span class="line">tau_real = <span class="number">1.5</span>;</span><br><span class="line">N = <span class="number">200</span>;</span><br><span class="line">D = normrnd(mu_real, <span class="built_in">sqrt</span>(<span class="number">1.</span>/tau_real), [N,<span class="number">1</span>]);</span><br><span class="line">sumD = sum(D);</span><br><span class="line">sumD2 = sum(D.^<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">mu_est = mean(D); <span class="comment">% 公式(20)</span></span><br><span class="line">tau_est = <span class="number">1.</span>/(mean(D.^<span class="number">2</span>)-mean(D).^<span class="number">2</span>); <span class="comment">% 公式(21)</span></span><br><span class="line"><span class="comment">% 查看该一元高斯的分布图像</span></span><br><span class="line">x_real=<span class="number">-4</span>+mu_real:<span class="number">0.1</span>:mu_real+<span class="number">4</span>;</span><br><span class="line">y_real=normpdf(x_real,mu_real,<span class="built_in">sqrt</span>(<span class="number">1.</span>/tau_real));</span><br><span class="line">x_est=<span class="number">-4</span>+mu_est:<span class="number">0.1</span>:mu_est+<span class="number">4</span>;</span><br><span class="line">y_est=normpdf(x_est,mu_est,<span class="built_in">sqrt</span>(<span class="number">1.</span>/tau_est));</span><br><span class="line">figure;plot(x_real,y_real,<span class="string">'-r.'</span>,x_est,y_est,<span class="string">'--b.'</span>);grid;</span><br></pre></td></tr></table></figure></p>
+<p>初始化模型参数和超参数<br><figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">% 初始化参数和超参数</span></span><br><span class="line">mu0 = <span class="number">1e-6</span>; <span class="comment">% 无信息先验</span></span><br><span class="line">lambda0 = <span class="number">1e-6</span>; <span class="comment">% 无信息先验</span></span><br><span class="line">a0 = <span class="number">1e-6</span>; <span class="comment">% 无信息先验</span></span><br><span class="line">b0 = <span class="number">1e-6</span>; <span class="comment">% 无信息先验</span></span><br><span class="line">mu = <span class="built_in">randn</span>();</span><br><span class="line">mus(<span class="number">1</span>) = mu;</span><br><span class="line">tau = <span class="built_in">rand</span>();</span><br><span class="line">taus(<span class="number">1</span>) = tau;</span><br><span class="line"></span><br><span class="line">LB = <span class="number">0</span>; <span class="comment">% 变分下界</span></span><br><span class="line">tol = <span class="number">1e-5</span>; <span class="comment">% 收敛允许误差</span></span><br><span class="line">maxiters = <span class="number">100</span>; <span class="comment">% 迭代最大次数</span></span><br></pre></td></tr></table></figure></p>
+<p>可视化求解过程，将分别绘出模型参数的真值与估计值比较图、变分下界变化图和精度参数$\tau$的后验分布变化图<br><figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">% 可视化求解过程</span></span><br><span class="line">scrnsz = get(<span class="number">0</span>,<span class="string">'ScreenSize'</span>);</span><br><span class="line">h = figure(<span class="string">'Position'</span>,[scrnsz(<span class="number">3</span>)*<span class="number">0.25</span> scrnsz(<span class="number">4</span>)*<span class="number">0.25</span> scrnsz(<span class="number">3</span>)*<span class="number">0.5</span> scrnsz(<span class="number">4</span>)*<span class="number">0.5</span>]);</span><br><span class="line">set(<span class="number">0</span>,<span class="string">'CurrentFigure'</span>,h);</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>); plot(mu_real, <span class="string">'-r.'</span>,<span class="string">'LineWidth'</span>,<span class="number">1.5</span>,<span class="string">'MarkerSize'</span>,<span class="number">10</span> ); title(<span class="string">'Model parameter \mu'</span>); xlabel(<span class="string">'Iteration'</span>); grid on;</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>); plot(tau_real, <span class="string">'-r.'</span>,<span class="string">'LineWidth'</span>,<span class="number">1.5</span>,<span class="string">'MarkerSize'</span>,<span class="number">10</span> ); title(<span class="string">'Model parameter \tau'</span>); xlabel(<span class="string">'Iteration'</span>); grid on;</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>); plot(LB, <span class="string">'-r.'</span>,<span class="string">'LineWidth'</span>,<span class="number">1.5</span>,<span class="string">'MarkerSize'</span>,<span class="number">10</span> ); title(<span class="string">'Lower bound'</span>); xlabel(<span class="string">'Iteration'</span>); grid on;</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>); plot(<span class="number">0</span>:<span class="number">0.1</span>:<span class="number">20</span>, gampdf(<span class="number">0</span>:<span class="number">0.1</span>:<span class="number">20</span>, a0, <span class="number">1.</span>/b0), <span class="string">'r-'</span>); title(<span class="string">'Posterior pdf'</span>); xlabel(<span class="string">'Noise precision \tau'</span>); grid on;</span><br><span class="line">set(findall(h,<span class="string">'type'</span>,<span class="string">'text'</span>),<span class="string">'fontSize'</span>,<span class="number">12</span>);</span><br><span class="line">drawnow;</span><br></pre></td></tr></table></figure></p>
+<p>模型迭代求解<br><figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line"><span class="comment">% 模型求解</span></span><br><span class="line"><span class="keyword">for</span> it=<span class="number">1</span>:maxiters</span><br><span class="line">    <span class="comment">% 更新参数 mu，公式(10)</span></span><br><span class="line">    lambda_new = (lambda0+N)*tau;</span><br><span class="line">    mu_new = (<span class="number">1.</span>/lambda_new)*(lambda0*mu0+sumD)*tau;</span><br><span class="line">    mu = mu_new;</span><br><span class="line">    mus(it+<span class="number">1</span>) = mu;</span><br><span class="line">    E_mu2 = mu_new^<span class="number">2</span>+<span class="number">1.</span>/lambda_new; <span class="comment">% E[mu^2]=E[mu]^2+Var[mu]</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">% 更新参数 tau，公式(12)</span></span><br><span class="line">    a_new = a0+(N+<span class="number">1</span>)./<span class="number">2</span>;</span><br><span class="line">    b_new = b0+<span class="number">0.5</span>*(sumD2<span class="number">-2</span>*(sumD+lambda0*mu0)*mu+(N+lambda0)*E_mu2+lambda0*(mu0^<span class="number">2</span>));</span><br><span class="line">    tau = a_new./b_new;</span><br><span class="line">    taus(it+<span class="number">1</span>) = tau;</span><br><span class="line">    E_lntau = <span class="built_in">psi</span>(a_new)-safelog(b_new); <span class="comment">% E[ln(tau)]=psi(a)-ln(b)</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">% 评估变分下界，公式(13)</span></span><br><span class="line">    E_pD = <span class="number">-0.5</span>*N*safelog(<span class="number">2</span>*<span class="built_in">pi</span>)+<span class="number">0.5</span>*N*E_lntau<span class="number">-0.5</span>*tau*(sumD2<span class="number">-2</span>*mu*sumD+E_mu2);</span><br><span class="line">    E_pmu = <span class="number">-0.5</span>*safelog(<span class="number">2</span>*<span class="built_in">pi</span>)+<span class="number">0.5</span>*E_lntau+<span class="number">0.5</span>*safelog(lambda0)<span class="number">-0.5</span>*lambda0*tau*(E_mu2<span class="number">-2</span>*mu0*mu+mu0^<span class="number">2</span>);</span><br><span class="line">    E_ptau = -safelog(<span class="built_in">gamma</span>(a0))+a0*safelog(b0)+(a0<span class="number">-1</span>)*E_lntau-b0*tau;</span><br><span class="line">    E_qmu = <span class="number">0.5</span>*safelog(<span class="number">2</span>*<span class="built_in">pi</span>)<span class="number">-0.5</span>*safelog(lambda_new)+<span class="number">0.5</span>;</span><br><span class="line">    E_qtau = safelog(<span class="built_in">gamma</span>(a_new))-(a_new<span class="number">-1</span>)*<span class="built_in">psi</span>(a_new)-safelog(b_new)+a_new;</span><br><span class="line">    LB(it) = E_pD + E_pmu + E_ptau + E_qmu + E_qtau;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">% 可视化求解过程</span></span><br><span class="line">    set(<span class="number">0</span>,<span class="string">'CurrentFigure'</span>,h);</span><br><span class="line">    subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>); plot(mu_real*<span class="built_in">ones</span>(<span class="number">1</span>,it+<span class="number">1</span>), <span class="string">'-r.'</span>,<span class="string">'LineWidth'</span>,<span class="number">1.5</span>,<span class="string">'MarkerSize'</span>,<span class="number">10</span>);hold on;plot(mu_est*<span class="built_in">ones</span>(<span class="number">1</span>,it+<span class="number">1</span>), <span class="string">'--r.'</span>,<span class="string">'LineWidth'</span>,<span class="number">1.5</span>,<span class="string">'MarkerSize'</span>,<span class="number">10</span> );hold on;plot(mus, <span class="string">'-b.'</span>,<span class="string">'LineWidth'</span>,<span class="number">1.5</span>,<span class="string">'MarkerSize'</span>,<span class="number">10</span>);hold off; title(<span class="string">'Model parameter \mu'</span>); xlabel(<span class="string">'Iteration'</span>); grid on;</span><br><span class="line">    subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>); plot(tau_real*<span class="built_in">ones</span>(<span class="number">1</span>,it+<span class="number">1</span>), <span class="string">'-r.'</span>,<span class="string">'LineWidth'</span>,<span class="number">1.5</span>,<span class="string">'MarkerSize'</span>,<span class="number">10</span>);hold on;plot(tau_est*<span class="built_in">ones</span>(<span class="number">1</span>,it+<span class="number">1</span>), <span class="string">'--r.'</span>,<span class="string">'LineWidth'</span>,<span class="number">1.5</span>,<span class="string">'MarkerSize'</span>,<span class="number">10</span> );hold on;plot(taus, <span class="string">'-b.'</span>,<span class="string">'LineWidth'</span>,<span class="number">1.5</span>,<span class="string">'MarkerSize'</span>,<span class="number">10</span>);hold off; title(<span class="string">'Model parameter \tau'</span>); xlabel(<span class="string">'Iteration'</span>); grid on;</span><br><span class="line">    subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>); plot(LB, <span class="string">'-r.'</span>,<span class="string">'LineWidth'</span>,<span class="number">1.5</span>,<span class="string">'MarkerSize'</span>,<span class="number">10</span>); title(<span class="string">'Lower bound'</span>); xlabel(<span class="string">'Iteration'</span>); grid on;</span><br><span class="line">    subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>); plot(<span class="number">0</span>:<span class="number">0.05</span>:<span class="number">2</span>*tau, gampdf(<span class="number">0</span>:<span class="number">0.05</span>:<span class="number">2</span>*tau, a_new, <span class="number">1.</span>/b_new), <span class="string">'-r.'</span>, <span class="string">'LineWidth'</span>,<span class="number">1.5</span>); title(<span class="string">'Posterior pdf'</span>); xlabel(<span class="string">'Noise precision \tau'</span>); grid on;</span><br><span class="line">    set(findall(h,<span class="string">'type'</span>,<span class="string">'text'</span>),<span class="string">'fontSize'</span>,<span class="number">12</span>);</span><br><span class="line">    drawnow;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">% 判断模型是否收敛</span></span><br><span class="line">    <span class="keyword">if</span> it&gt;<span class="number">3</span></span><br><span class="line">        LB_change = <span class="number">-1</span>*(LB(it) - LB(it<span class="number">-1</span>))/LB(<span class="number">3</span>);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        LB_change = NaN;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">if</span> it&gt;<span class="number">10</span> &amp;&amp; (<span class="built_in">abs</span>(LB_change) &lt; tol)</span><br><span class="line">        <span class="built_in">disp</span>(<span class="string">'Converged!'</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">y</span> = <span class="title">safelog</span><span class="params">(x)</span></span></span><br><span class="line">x(x&lt;<span class="number">1e-300</span>)=<span class="number">1e-200</span>;</span><br><span class="line">x(x&gt;<span class="number">1e300</span>)=<span class="number">1e300</span>;</span><br><span class="line">y=<span class="built_in">log</span>(x);</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
+<p>求解结果如下图所示，左上与右上两图中的<strong>红色实线</strong>表示生成观测数据模型参数的真值，<strong>红色虚线</strong>表示利用观测数据显式计算得到的模型参数的估计值，<strong>蓝色实线</strong>表示利用变分推断迭代求解的参数估计值。在本例子中，由于推断公式较简单，$\mathbb{E}[\mu]$的计算不依赖于$\mathbb{E}[\tau]$，所以算法在第二次迭代就已经收敛到显式计算的估计值。<br><img src="http://owewhlo0r.bkt.clouddn.com/vb/vb_uG_result.png" alt="result_converged"></p>
+<h2 id="例子-混合高斯模型"><a href="#例子-混合高斯模型" class="headerlink" title="例子-混合高斯模型"></a>例子-混合高斯模型</h2><h3 id="模型推断-1"><a href="#模型推断-1" class="headerlink" title="模型推断"></a>模型推断</h3><h3 id="代码示例-1"><a href="#代码示例-1" class="headerlink" title="代码示例"></a>代码示例</h3><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li>Christopher M. Bishop. “Pattern recognition and machine learning.” <em>Springer</em>, 2006.</li>
+<li>PRML Errata 1st: <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/05/prml-errata-1st-20110921.pdf" target="_blank" rel="noopener">https://www.microsoft.com/en-us/research/wp-content/uploads/2016/05/prml-errata-1st-20110921.pdf</a></li>
+<li>Qibin Zhao, Liqing Zhang, and Andrzej Cichocki. “Bayesian CP factorization of incomplete tensors with automatic rank determination.” <em>IEEE transactions on pattern analysis and machine intelligence</em>, 2015.</li>
+<li><a href="https://github.com/qbzhao/BCPF" target="_blank" rel="noopener">https://github.com/qbzhao/BCPF</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Gamma_distribution" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Gamma_distribution</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Conjugate_prior" target="_blank" rel="noopener">https://en.wikipedia.org/wiki/Conjugate_prior</a></li>
+</ol>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">yxnchen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://yxnchen.github.io/machine-learning/变分贝叶斯推断笔记/">http://yxnchen.github.io/machine-learning/变分贝叶斯推断笔记/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://yxnchen.github.io" target="_blank">YXN</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Bayesian/">Bayesian</a><a class="post-meta__tags" href="/tags/Variational-Inference/">Variational Inference</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/machine-learning/贝叶斯泊松分解变分推断笔记/"><i class="fa fa-chevron-left">  </i><span>贝叶斯泊松分解变分推断笔记</span></a></div></nav></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2013 - 2019 By yxnchen</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.5.6"></script><script src="/js/fancybox.js?version=1.5.6"></script><script src="/js/sidebar.js?version=1.5.6"></script><script src="/js/copy.js?version=1.5.6"></script><script src="/js/fireworks.js?version=1.5.6"></script><script src="/js/transition.js?version=1.5.6"></script><script src="/js/scroll.js?version=1.5.6"></script><script src="/js/head.js?version=1.5.6"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
 
-block top_img
-  - var top_img = page.top_img || theme.post_meta.top_img || theme.top_img || config.top_img
-  if (top_img && page.top_img !== false)
-    - var flag = top_img === true ? 'no-bg' : undefined
-    div#top-container(style=`background-image: url(${top_img})` class=flag)
-      include ./includes/header.pug
-      #post-info
-        #post-title= page.title || _p('no_title')
-        #post-meta
-          if (theme.post_meta.date_type)
-            - var date_type = theme.post_meta.date_type === 'updated' ? 'updated' : 'date'
-            time.post-meta__date #[i.fa.fa-calendar(aria-hidden="true")] #[=date(page[date_type], config.date_format)]
-          if (theme.post_meta.categories && page.categories.data.length > 0)
-            if (theme.post_meta.date_type)
-              span.post-meta__separator |
-            each item, index in page.categories.data
-              i.fa.fa-inbox.post-meta__icon(aria-hidden="true")
-              a(href=url_for(item.path)).post-meta__categories #[=item.name]
-              if (index < page.categories.data.length - 1)
-                 i.fa.fa-angle-right(aria-hidden="true")
-          if (theme.disqus.enable && theme.disqus.count)
-            if (theme.post_meta.date_type || theme.post_meta.categories && page.categories.data.length > 0)
-              span.post-meta__separator |
-            i.fa.fa-comment-o.post-meta__icon(aria-hidden="true")
-            a(href=url_for(page.path) + '#disqus_thread')
-              span.disqus-comment-count(data-disqus-identifier=page.path)
-          if (theme.wordcount && theme.wordcount.enable)
-            .post-meta-wordcount
-              span= _p('post.wordcount') + ': '
-              span.word-count= wordcount(page.content)
-              span.post-meta__separator |
-              span= _p('post.min2read', min2read(page.content, {cn: 350, en: 160}))
-  else
-    div#top-container.plain
-      include ./includes/header.pug
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
 
-block content
-  article#post(class="")
-    if (!top_img)
-      #post-title.plain= page.title || _p('no_title')
-      #post-meta
-        if (theme.post_meta.date_type)
-          - var date_type = theme.post_meta.date_type === 'updated' ? '' : 'date'
-          time.post-meta__date #[i.fa.fa-calendar(aria-hidden="true")] #[=date(page[date_type], config.date_format)]
-        if (theme.post_meta.categories && page.categories.data.length > 0)
-          if (theme.post_meta.date_type)
-            span.post-meta__separator |
-          each item, index in page.categories.data
-            i.fa.fa-inbox(aria-hidden="true")
-            a(href=url_for(item.path)).post-meta__categories  #[=item.name]
-            if (index < page.categories.data.length - 1)
-                i.fa.fa-angle-right.post-meta__separator(aria-hidden="true")
-        if (theme.disqus.enable && theme.disqus.count)
-          if (theme.post_meta.date_type || theme.post_meta.categories && page.categories.data.length > 0)
-            span.post-meta__separator |
-          i.fa.fa-comment-o(aria-hidden="true")
-          a(href=url_for(page.path) + '#disqus_thread')
-            span.disqus-comment-count(data-disqus-identifier=page.path)
-        if (theme.wordcount && theme.wordcount.enable)
-          span.post-meta__separator |
-          span.post-meta-wordcount
-            span= _p('post.wordcount') + ': '
-            span.word-count= wordcount(page.content)
-            span.post-meta__separator |
-            span= _p('post.min2read', min2read(page.content, {cn: 350, en: 160}))
-    #post-content.article-container!= page.content
-  if (theme.post_copyright && theme.post_copyright.enable)
-    .post-copyright
-      .post-copyright__author
-        span.post-copyright-meta= _p('post.copyright.author') + ": "
-        span.post-copyright-info
-          a(href=`mailto:${config.email}`) #[=config.author]
-      .post-copyright__type
-        span.post-copyright-meta= _p('post.copyright.link') + ": "
-        span.post-copyright-info
-          a(href=url_for(page.permalink)) #[=page.permalink]
-      .post-copyright__notice
-        span.post-copyright-meta= _p('post.copyright.copyright_notice') + ": "
-        span.post-copyright-info!= _p('post.copyright.copyright_content', theme.post_copyright.license_url, theme.post_copyright.license, config.url, config.title)
-  if (theme.post_meta.tags)
-    .post-meta__tag-list
-      each item, index in page.tags.data
-        a(href=url_for(item.path)).post-meta__tags #[=item.name]
-  if (theme.QR_code)
-    if (theme.QR_code.length > 0)
-      .post-qr-code
-        each item in theme.QR_code
-          .post-qr-code-item
-            img.post-qr-code__img(src=(item.itemlist||item).img)
-            .post-qr-code__desc=(item.itemlist||item).text
-  include includes/share/index.pug
-  include includes/pagination.pug
-  if (theme.adv && theme.adv.enable)
-    .post-adv!= theme.adv.info
-  if page.comments !== false
-    include includes/comments/index.pug
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end --></body></html>

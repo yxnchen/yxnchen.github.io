@@ -1,0 +1,121 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="贝叶斯泊松分解变分推断笔记"><meta name="keywords" content="Bayesian,Variational Inference"><meta name="author" content="yxnchen,undefined"><meta name="copyright" content="yxnchen"><title>贝叶斯泊松分解变分推断笔记 | YXN</title><link rel="shortcut icon" href="/favicon-32x32.png"><link rel="stylesheet" href="/css/index.css?version=1.5.6"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css?version=1.5.6"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><script><!-- hexo-inject:begin --><!-- hexo-inject:end -->var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+} </script><!-- hexo-inject:begin --><!-- hexo-inject:end --></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#贝叶斯泊松分解"><span class="toc-number">1.</span> <span class="toc-text">贝叶斯泊松分解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#一般形式"><span class="toc-number">1.1.</span> <span class="toc-text">一般形式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Binary形式"><span class="toc-number">1.2.</span> <span class="toc-text">Binary形式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#变分推断"><span class="toc-number">2.</span> <span class="toc-text">变分推断</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#变分更新公式"><span class="toc-number">2.1.</span> <span class="toc-text">变分更新公式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#变分下界计算"><span class="toc-number">2.2.</span> <span class="toc-text">变分下界计算</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">3.</span> <span class="toc-text">参考</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">yxnchen</div><div class="author-info__description text-center">Do not go gentle into that good night!</div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">2</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">2</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">1</span></a></div></div></div><div id="content-outer"><div class="no-bg" id="top-container" style="background-image: url(true)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">YXN</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Posts</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/about">About</a></span></div><div id="post-info"><div id="post-title">贝叶斯泊松分解变分推断笔记</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2018-10-10</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/machine-learning/">machine-learning</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h2 id="贝叶斯泊松分解"><a href="#贝叶斯泊松分解" class="headerlink" title="贝叶斯泊松分解"></a>贝叶斯泊松分解</h2><h3 id="一般形式"><a href="#一般形式" class="headerlink" title="一般形式"></a>一般形式</h3><p>因为可以对观测数据进行灵活的符合实际的建模（不同的概率分布假设），贝叶斯概率分解模型已经成为了最常见的矩阵/张量分解方法。其中，贝叶斯泊松分解模型一方面可以对计数值（count data）进行有效的建模，另一方面得益于其非负的分解结构，可以用于替代传统的非负矩阵分解模型（NMF），因而被广泛应用于推荐系统、因子分析和聚类分析中。常见的贝叶斯泊松矩阵分解模型如下，其中观测值$x_{ij}$服从泊松分布，而其分解得到的因子矩阵的值则服从共轭的Gamma分布：</p>
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+&x_{ij}=\sum_{k=1}^{K}z_{ijk}, z_{ijk}\sim\text{Pois}(u_{ik}v_{jk}), \\
+&u_{ik}\sim\text{Gamma}(a^{(u)},\frac{b^{(u)}}{a^{(u)}}),\\
+&v_{jk}\sim\text{Gamma}(a^{(v)},\frac{b^{(v)}}{a^{(v)}}).\\
+\end{split}
+\end{equation}</script><a id="more"></a>
+<p>其中Gamma分布的概率密度函数如下所示，$\alpha\in\mathbb{R}_{+}$为shape参数，$\beta\in\mathbb{R}_{+}$为scale参数，$\Gamma(n+1)=n!$为gamma函数：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\text{Gamma}(x;\alpha,\beta)=\text{exp}\left((\alpha-1)\text{ln}x-\frac{x}{\beta}-\text{ln}\Gamma(\alpha)-\alpha\text{ln}\beta\right)
+\end{equation}</script><h3 id="Binary形式"><a href="#Binary形式" class="headerlink" title="Binary形式"></a>Binary形式</h3><h2 id="变分推断"><a href="#变分推断" class="headerlink" title="变分推断"></a>变分推断</h2><h3 id="变分更新公式"><a href="#变分更新公式" class="headerlink" title="变分更新公式"></a>变分更新公式</h3><p>上述模型的联合概率分布函数为</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+p(X,Z,U,V)=p(X\mid Z)p(Z\mid U,V)p(U)p(V)
+\end{equation}</script><p>其对数形式展开如下</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\text{ln}p(X,Z,U,V)=&\sum_{i}\sum_{j}\sum_{k}\left(-u_{ik}v_{jk}+z_{ijk}\text{ln}(u_{ik}v_{jk})-\text{ln}\Gamma(z_{ijk}+1)\right) \\
+&+\sum_{i}\sum_{j}\left((a^{(u)}-1)\text{ln}u_{ik}-\frac{a^{(u)}}{b^{(u)}}u_{ik}-\text{ln}\Gamma(a^{(u)})-a^{(u)}\text{ln}\frac{b^{(u)}}{a^{(u)}}\right) \\
+&+\sum_{i}\sum_{j}\left((a^{(v)}-1)\text{ln}v_{jk}-\frac{a^{(v)}}{b^{(v)}}v_{jk}-\text{ln}\Gamma(a^{(v)})-a^{(v)}\text{ln}\frac{b^{(v)}}{a^{(v)}}\right) \\
+\end{split}
+\end{equation}</script><p>与此同时，对后验概率分布的变分近似分布进行分解，得到</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+q(Z,U,V)&=q(Z)q(U)q(V) \\
+&=\prod_{i,j}q_{\boldsymbol{z}_{ij}}(\boldsymbol{z}_{ij})\prod_{i,k}q_{u_{ik}}(u_{ik})\prod_{j,k}q_{v_{jk}}(v_{jk})
+\end{split}
+\end{equation}</script><p>根据<a href="https://yxnchen.github.io/machine-learning/%E5%8F%98%E5%88%86%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%8E%A8%E6%96%AD%E7%AC%94%E8%AE%B0/">变分贝叶斯推断笔记</a>中的公式(3)，我们可以对各个因子的最优化形式进行推导。首先，对于因子$q_{\boldsymbol{z}_{ij}}(\boldsymbol{z}_{ij})$，有</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\text{ln}q_{\boldsymbol{z}_{ij}}^{*}(\boldsymbol{z}_{ij})&=\mathbb{E}_{(\Theta\backslash \boldsymbol{z}_{ij})}[\text{ln}p(X,Z,U,V)]+\text{const} \\
+&=\mathbb{E}_{(\Theta\backslash \boldsymbol{z}_{ij})}\left[\sum_{k}\left(-\text{ln}\Gamma(z_{ijk}+1)+z_{ijk}\left(\text{ln}u_{ik}+\text{ln}v_{jk}\right)\right)\right]+\text{const} \\
+&=\sum_{k}\left(-\text{ln}\Gamma(z_{ijk}+1)+z_{ijk}\left(\mathbb{E}[\text{ln}u_{ik}]+\mathbb{E}[\text{ln}v_{jk}]\right)\right)+\text{const} \\
+&=\sum_{k}\left(-\text{ln}\Gamma(z_{ijk}+1)+z_{ijk}\text{ln}e^{\mathbb{E}[\text{ln}u_{ik}]+\mathbb{E}[\text{ln}v_{jk}]}\right)+\text{const} \\
+\end{split}
+\end{equation}</script><p>辅助变量$\boldsymbol{z}_{ij}$的后验为多项式分布，其参数为</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\phi_{ijk}^{*}=\frac{e^{\mathbb{E}[\text{ln}u_{ik}]+\mathbb{E}[\text{ln}v_{jk}]}}{\sum_{k}e^{\mathbb{E}[\text{ln}u_{ik}]+\mathbb{E}[\text{ln}v_{jk}]}}
+\end{equation}</script><p>因此$z_{ijk}$的更新公式为</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\mathbb{E}[z_{ijk}]=x_{ij}\phi_{ijk}^{*}
+\end{equation}</script><p>进一步地，对于因子$q_{u_{ik}}(u_{ik})$，有</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\text{ln}q_{u_{ik}}^{*}(u_{ik})&=\mathbb{E}_{(\Theta\backslash u_{ik})}[\text{ln}p(X,Z,U,V)]+\text{const} \\
+&=\mathbb{E}_{(\Theta\backslash u_{ik})}\left[\left(a^{(u)}+\sum_{j}z_{ijk}-1\right)\text{ln}u_{ik}-\left(\frac{a^{(u)}}{b^{(u)}}+\sum_{k}v_{jk}\right)u_{ik}\right]+\text{const} \\
+&=\left(a^{(u)}+\sum_{j}\mathbb{E}[z_{ijk}]-1\right)\text{ln}u_{ik}-\left(\frac{a^{(u)}}{b^{(u)}}+\sum_{k}\mathbb{E}[v_{jk}]\right)u_{ik}+\text{const} \\
+\end{split}
+\end{equation}</script><p>由共轭性，$q_{u_{ik}}(u_{ik})$仍然是Gamma分布，其参数为</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\alpha_{ik}^{(u)*}&=a^{(u)}+\sum_{j}\mathbb{E}[z_{ijk}],\\
+\beta_{ik}^{(u)*}&=\left(\frac{a^{(u)}}{b^{(u)}}+\sum_{k}\mathbb{E}[v_{jk}]\right)^{-1},\\
+\end{split}
+\end{equation}</script><p>因此$u_{ik}$的更新公式为</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\mathbb{E}[u_{ik}]&=\alpha_{ik}^{(u)*}\beta_{ik}^{(u)*} \\
+\mathbb{E}[\text{ln}u_{ik}]&=\psi(\alpha_{ik}^{(u)*})+\text{ln}\beta_{ik}^{(u)*}
+\end{split}
+\end{equation}</script><p>最后，因子$q_{v_{jk}}(v_{jk})$的计算与因子$q_{u_{ik}}(u_{ik})$类似。</p>
+<h3 id="变分下界计算"><a href="#变分下界计算" class="headerlink" title="变分下界计算"></a>变分下界计算</h3><p>变分下界的计算公式如下：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\mathcal{L}(q)&=\mathbb{E}_{q}[\text{ln}p(X,\Theta)]+H(q(\Theta))
+\end{split}
+\end{equation}</script><p>其中$H(q(\Theta))=-\mathbb{E}_{q}[\text{ln}q(\Theta)]$，因此我们可以计算变分下界，其中$\sum_{i}\sum_{j}\sum_{k}\mathbb{E}\left[\text{ln}\Gamma(z_{ijk}+1)\right]$项可以在计算过程中消去</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{split}
+\mathcal{L}(q)=&-\sum_{i}\sum_{j}\sum_{k}\mathbb{E}[u_{ik}]\mathbb{E}[v_{jk}] \\
+&+\sum_{i}\sum_{k}\mathbb{E}[\text{ln}u_{ik}]\left(a^{(u)}-1+\sum_{j}\mathbb{E}[z_{ijk}]\right) \\
+&+\sum_{j}\sum_{k}\mathbb{E}[\text{ln}v_{jk}]\left(a^{(v)}-1+\sum_{i}\mathbb{E}[z_{ijk}]\right) \\
+&+\sum_{i}\sum_{k}\left(-\frac{a^{(u)}}{b^{(u)}}\mathbb{E}[u_{ik}]-\text{ln}\Gamma(a^{(u)})-a^{(u)}\text{ln}\frac{b^{(u)}}{a^{(u)}}\right) \\
+&+\sum_{j}\sum_{k}\left(-\frac{a^{(v)}}{b^{(v)}}\mathbb{E}[v_{jk}]-\text{ln}\Gamma(a^{(v)})-a^{(v)}\text{ln}\frac{b^{(v)}}{a^{(v)}}\right) \\
+&+\sum_{i}\sum_{j}\left(-\text{ln}\Gamma(x_{ij}+1)-\sum_{k}\mathbb{E}[z_{ijk}]\text{ln}\phi_{ijk}^{*}\right) \\
+&+\sum_{i}\sum_{k}\left(-(\alpha_{ik}^{(u)*}-1)\psi(\alpha_{ik}^{(u)*})+\text{ln}\beta_{ik}^{(u)*}+\alpha_{ik}^{(u)*}+\text{ln}\Gamma(\alpha_{ik}^{(u)*})\right) \\
+&+\sum_{j}\sum_{k}\left(-(\alpha_{jk}^{(v)*}-1)\psi(\alpha_{jk}^{(v)*})+\text{ln}\beta_{jk}^{(v)*}+\alpha_{jk}^{(v)*}+\text{ln}\Gamma(\alpha_{jk}^{(v)*})\right) \\
+\end{split}
+\end{equation}</script><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li>Prem Gopalan, Jake M. Hofman, David M. Blei. “Scalable recommendation with hierarchical poisson factorization”. In <em>UAI</em>, 2015.</li>
+</ol>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">yxnchen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://yxnchen.github.io/machine-learning/贝叶斯泊松分解变分推断笔记/">http://yxnchen.github.io/machine-learning/贝叶斯泊松分解变分推断笔记/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://yxnchen.github.io" target="_blank">YXN</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Bayesian/">Bayesian</a><a class="post-meta__tags" href="/tags/Variational-Inference/">Variational Inference</a></div><nav id="pagination"><div class="next-post pull-right"><a href="/machine-learning/变分贝叶斯推断笔记/"><span>变分贝叶斯推断笔记</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2013 - 2019 By yxnchen</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="/js/third-party/anime.min.js"></script><script src="/js/third-party/jquery.min.js"></script><script src="/js/third-party/jquery.fancybox.min.js"></script><script src="/js/third-party/velocity.min.js"></script><script src="/js/third-party/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.5.6"></script><script src="/js/fancybox.js?version=1.5.6"></script><script src="/js/sidebar.js?version=1.5.6"></script><script src="/js/copy.js?version=1.5.6"></script><script src="/js/fireworks.js?version=1.5.6"></script><script src="/js/transition.js?version=1.5.6"></script><script src="/js/scroll.js?version=1.5.6"></script><script src="/js/head.js?version=1.5.6"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end --></body></html>

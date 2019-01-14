@@ -8,7 +8,7 @@
       <link href="/technique/Docker%E9%83%A8%E7%BD%B2GitLab%E5%B9%B6%E5%AE%9E%E7%8E%B0%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/"/>
       <url>/technique/Docker%E9%83%A8%E7%BD%B2GitLab%E5%B9%B6%E5%AE%9E%E7%8E%B0%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE/</url>
       
-        <content type="html"><![CDATA[<p><img src="https://gh-io-1257470807.cos.ap-guangzhou.myqcloud.com/docker-build-push-gitlab-ci.png" alt="GitLab --&gt; Docker"></p><p>本文记录在实验室内网环境下利用Docker搭建内部源码托管工具GitLab。</p><a id="more"></a><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h2 id="安装GitLab-ce"><a href="#安装GitLab-ce" class="headerlink" title="安装GitLab-ce"></a>安装GitLab-ce</h2><h2 id="配置GitLab"><a href="#配置GitLab" class="headerlink" title="配置GitLab"></a>配置GitLab</h2>]]></content>
+        <content type="html"><![CDATA[<p><img src="https://gh-io-1257470807.cos.ap-guangzhou.myqcloud.com/docker-build-push-gitlab-ci.png" alt=""></p><blockquote><p>本地GitLab的安装需要部署各种依赖和其他服务，费时且麻烦，而直接使用Docker进行容器化部署则省时且简单，只要运行一句命名即可使用。本文记录了在实验室内网环境下利用Docker搭建源码托管工具GitLab，并列出一些必要的个性化配置项。</p></blockquote><a id="more"></a><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h3><h3 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h3><h2 id="安装GitLab-ce"><a href="#安装GitLab-ce" class="headerlink" title="安装GitLab-ce"></a>安装GitLab-ce</h2><h2 id="配置GitLab"><a href="#配置GitLab" class="headerlink" title="配置GitLab"></a>配置GitLab</h2>]]></content>
       
       
       <categories>

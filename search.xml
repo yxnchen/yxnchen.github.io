@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[Docker部署ShareLaTeX并简单配置中文环境]]></title>
     <url>%2Ftechnique%2FDocker%E9%83%A8%E7%BD%B2ShareLaTeX%E5%B9%B6%E7%AE%80%E5%8D%95%E9%85%8D%E7%BD%AE%E4%B8%AD%E6%96%87%E7%8E%AF%E5%A2%83%2F</url>
-    <content type="text"><![CDATA[由于某些原因，国内访问ShareLaTeX或Overleaf网站速度特别慢而且经常掉线，科研环境十分不友好，因此有了自己搭建ShareLaTeX服务打算，且其支持Docker容器化部署，安装过程比较容易。本文记录了在实验室内网环境下利用Docker搭建ShareLaTeX服务的过程，并进行中文环境配置。 准备工作安装与配置ShareLaTeX安装完整Texlive安装中文字体参考链接]]></content>
+    <content type="text"><![CDATA[由于某些原因，国内访问ShareLaTeX或Overleaf网站速度特别慢而且经常掉线，科研环境十分不友好，因此有了自己搭建ShareLaTeX服务打算，且其支持Docker容器化部署，安装过程比较容易。本文记录了在实验室内网环境下利用Docker搭建ShareLaTeX服务的过程，并进行中文环境配置。 准备工作系统与Docker环境安装同上篇Docker部署GitLab并实现基本配置 安装与配置ShareLaTeX配置中文环境参考链接 在本地部署ShareLatex服务 本地部署 ShareLatex ArchLinux 部署ShareLaTex并且配置中文支持 Installing ShareLaTeX Quick Start Guide]]></content>
       <categories>
         <category>technique</category>
       </categories>

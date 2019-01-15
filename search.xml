@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[Docker部署GitLab并实现基本配置]]></title>
     <url>%2Ftechnique%2FDocker%E9%83%A8%E7%BD%B2GitLab%E5%B9%B6%E5%AE%9E%E7%8E%B0%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE%2F</url>
-    <content type="text"><![CDATA[本地GitLab的安装需要部署各种依赖和其他服务，费时且麻烦，而直接使用Docker进行容器化部署则省时简单，只要运行一行命令即可使用。本文记录了在实验室内网环境下利用Docker搭建源码托管工具GitLab，并列出一些必要的个性化配置项。 准备工作操作系统Ubuntu 18.04 LTS 安装Docker安装GitLab-ce配置GitLab]]></content>
+    <content type="text"><![CDATA[本地GitLab的安装需要部署各种依赖和其他服务，费时且麻烦，而直接使用Docker进行容器化部署则省时简单，只要运行一行命令即可使用。本文记录了在实验室内网环境下利用Docker搭建源码托管工具GitLab，并列出一些必要的个性化配置项。 准备工作操作系统由于Ubuntu系统在Docker环境下兼容性更高，选择了 Ubuntu 18.04 LTS 作为操作系统环境。 安装Docker安装GitLab-ce配置GitLab]]></content>
       <categories>
         <category>technique</category>
       </categories>

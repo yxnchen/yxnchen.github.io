@@ -48,7 +48,7 @@
 <li><p>在容器中安装Windows字体</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 进入容器的命令行界面</span></span><br><span class="line">$ docker <span class="built_in">exec</span> -it sharelatex bash</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入root目录，解压winfonts.tar.gz，并剪切到系统字体目录下</span></span><br><span class="line">$ <span class="built_in">cd</span> ~</span><br><span class="line">$ tar -zxvf winfonts.tar.gz</span><br><span class="line">$ mv winfonts /usr/share/fonts/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入字体目录安装字体</span></span><br><span class="line">$ <span class="built_in">cd</span> /usr/share/fonts/winfonts</span><br><span class="line">$ mkfontscale</span><br><span class="line">$ mkfontdir</span><br><span class="line">$ <span class="built_in">fc</span>-cache -fv</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查确认中文字体安装成功</span></span><br><span class="line">$ <span class="built_in">fc</span>-list :lang=zh-cn</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>回到ShareLaTeX网站，创建一个新项目，使用$\CTeX$宏集和XeLaTeX编译器，即可生成中文pdf。（详见<a href="http://mirrors.ibiblio.org/CTAN/language/chinese/ctex/ctex.pdf" target="_blank" rel="noopener">$\CTeX$宏集手册</a>）</p>
+<li><p>回到ShareLaTeX网站，创建一个新项目，使用$C\TeX$宏集和XeLaTeX编译器，即可生成中文pdf。（详见<a href="http://mirrors.ibiblio.org/CTAN/language/chinese/ctex/ctex.pdf" target="_blank" rel="noopener">$C\TeX$宏集手册</a>）</p>
 </li>
 <li><p>因为学校论文的需要，有时需要其他中文字体，例如Adobe宋体，其安装流程与上述基本一致。（PS：在GitHub上可以找到公开的Adobe Song Std字体，涉及版权这里不放链接）</p>
 </li>

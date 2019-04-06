@@ -16,12 +16,12 @@
 <li>到 <a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">Oracle Java</a> 官网下载JDK并安装，安装路径建议直接选择<code>C:\Java</code>，不要安装在<code>Program Files</code>中（路径有空格会导致后面配置Hadoop比较麻烦）<ul>
 <li>环境变量添加<code>JAVA_HOME</code>，值为安装路径如<code>C:\Java\jdk1.8.0_121</code></li>
 <li>在环境变量<code>Path</code>中增加值：<code>%JAVA_HOME%\bin</code></li>
-<li>打开命令行测试是否安装成功，输入<code>java -version</code>看是否输出版本信息<br><img src="https://gh-io-1257470807.cos.ap-guangzhou.myqcloud.com/java-version.png" alt="Java"></li>
+<li>打开命令行测试是否安装成功，输入<code>java -version</code>看是否输出版本信息<br><img src="https://gh-io-1257470807.cos.ap-guangzhou.myqcloud.com/java-version.png" alt="命令行查看Java版本信息"></li>
 </ul>
 </li>
 </ul>
 <h1 id="安装Spark"><a href="#安装Spark" class="headerlink" title="安装Spark"></a>安装Spark</h1><ul>
-<li>到 <a href="http://spark.apache.org/downloads.html" target="_blank" rel="noopener">Apache Spark</a> 官网下载预编译的压缩文件，解压到某个路径中不含空格的文件夹下，也就是Spark的安装路径，如<code>D:\spark</code><br><img src="https://gh-io-1257470807.cos.ap-guangzhou.myqcloud.com/spark-dl.png" alt=""><ul>
+<li>到 <a href="http://spark.apache.org/downloads.html" target="_blank" rel="noopener">Apache Spark</a> 官网下载预编译的压缩文件，解压到某个路径中不含空格的文件夹下，也就是Spark的安装路径，如<code>D:\spark</code><br><img src="https://gh-io-1257470807.cos.ap-guangzhou.myqcloud.com/spark-dl.png" alt="下载Spark"><ul>
 <li>环境变量添加<code>SPARK_HOME</code>，值为安装路径</li>
 <li>在环境变量<code>Path</code>中增加值：<code>%SPARK_HOME%\bin</code>和<code>%SPARK_HOME%\sbin</code></li>
 <li>如果下载的Spark版本<code>&gt;=2.3</code>，建议在环境变量中添加<code>SPARK_LOCAL_HOSTNAME</code>，值为<code>localhost</code></li>
@@ -30,24 +30,24 @@
 </li>
 </ul>
 <h1 id="安装Hadoop"><a href="#安装Hadoop" class="headerlink" title="安装Hadoop"></a>安装Hadoop</h1><ul>
-<li>到 <a href="https://hadoop.apache.org/releases.html" target="_blank" rel="noopener">Apache Hadoop</a> 官网下载预编译的压缩包（这里为了更好对应选择下载2.7版本），解压到某个路径中不含空格的文件夹下，也就是Hadoop的安装路径，如<code>D:\hadoop</code><br><img src="https://gh-io-1257470807.cos.ap-guangzhou.myqcloud.com/hadoop-dl.png" alt=""><ul>
+<li>到 <a href="https://hadoop.apache.org/releases.html" target="_blank" rel="noopener">Apache Hadoop</a> 官网下载预编译的压缩包（这里为了更好对应选择下载2.7版本），解压到某个路径中不含空格的文件夹下，也就是Hadoop的安装路径，如<code>D:\hadoop</code><br><img src="https://gh-io-1257470807.cos.ap-guangzhou.myqcloud.com/hadoop-dl.png" alt="下载Hadoop（binary版本）"><ul>
 <li>环境变量添加<code>HADOOP_HOME</code>，值为安装路径</li>
 <li>在环境变量<code>Path</code>中增加值：<code>%HADOOP_HOME%\bin</code>和<code>%HADOOP_HOME%\sbin</code></li>
 <li>进入Hadoop的配置目录<code>etc\hadoop</code>，打开文件<code>hadoop-env.cmd</code>，设置Java路径为安装目录，如果Java安装在<code>Program Files</code>可以通过设置<code>set JAVA_HOME=C:\PROGRA~1\Java\jdk1.8.0_121</code>解决空格的问题</li>
 <li>下载对应版本的 <a href="https://github.com/steveloughran/winutils" target="_blank" rel="noopener">winutils</a>，把下载到的<code>bin</code>文件夹覆盖到Hadoop安装目录的<code>bin</code>文件夹，确保其中有<code>winutils.exe</code>文件</li>
 <li>新建<code>tmp\hive</code>文件夹，如<code>C:\tmp\hive</code>，命令行导航到Hadoop的<code>bin</code>目录，执行以下授权操作<code>winutils.exe chmod -R 777 C:\tmp\hive</code></li>
-<li>最后在命令行输入<code>hadoop version</code>测试是否安装成功<br><img src="https://gh-io-1257470807.cos.ap-guangzhou.myqcloud.com/hadoop-version.png" alt=""></li>
+<li>最后在命令行输入<code>hadoop version</code>测试是否安装成功<br><img src="https://gh-io-1257470807.cos.ap-guangzhou.myqcloud.com/hadoop-version.png" alt="验证Hadoop安装成功"></li>
 </ul>
 </li>
 </ul>
 <h1 id="hdfs伪分布式文件系统"><a href="#hdfs伪分布式文件系统" class="headerlink" title="hdfs伪分布式文件系统"></a>hdfs伪分布式文件系统</h1><p>（待更新，不影响后续步骤）</p>
 <h1 id="验证Spark安装成功"><a href="#验证Spark安装成功" class="headerlink" title="验证Spark安装成功"></a>验证Spark安装成功</h1><ul>
-<li>打开命令行，运行<code>spark-shell</code>，应该输入如下内容<br><img src="https://gh-io-1257470807.cos.ap-guangzhou.myqcloud.com/spark-shell.png" alt=""></li>
+<li>打开命令行，运行<code>spark-shell</code>，应该输入如下内容<br><img src="https://gh-io-1257470807.cos.ap-guangzhou.myqcloud.com/spark-shell.png" alt="验证Spark安装成功"></li>
 </ul>
 <h1 id="使用Spark开发第一个程序"><a href="#使用Spark开发第一个程序" class="headerlink" title="使用Spark开发第一个程序"></a>使用Spark开发第一个程序</h1><h2 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h2><h3 id="安装PySpark"><a href="#安装PySpark" class="headerlink" title="安装PySpark"></a>安装PySpark</h3><ul>
 <li>把Spark安装路径下的<code>python\pyspark</code>文件夹复制到Python的包文件夹下，如在Anaconda环境中，复制到<code>D:\Anaconda3\Lib\site-packages</code>目录下</li>
 <li>安装Python包<code>py4j</code>，如在命令行<code>pip install py4j</code></li>
-<li>验证PySpark配置成功，在命令行输入<code>pyspark</code>，应该输出如下内容<br><img src="https://gh-io-1257470807.cos.ap-guangzhou.myqcloud.com/pyspark.png" alt=""></li>
+<li>验证PySpark配置成功，在命令行输入<code>pyspark</code>，应该输出如下内容<br><img src="https://gh-io-1257470807.cos.ap-guangzhou.myqcloud.com/pyspark.png" alt="验证PySpark环境可用"></li>
 </ul>
 <h3 id="在PyCharm中使用PySpark"><a href="#在PyCharm中使用PySpark" class="headerlink" title="在PyCharm中使用PySpark"></a>在PyCharm中使用PySpark</h3><blockquote>
 <p>下面以一个经典的词频统计（Word Count）案例为例，学习PySpark的使用，词频统计是一个很经典的分布式程序，这里用到中文分词库jieba，去除停用词再进行计数</p>
@@ -60,9 +60,9 @@
 </ul>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># 从pyspark.context模块导入SparkContext</span></span><br><span class="line"><span class="keyword">from</span> pyspark.context <span class="keyword">import</span> SparkContext</span><br><span class="line"><span class="keyword">import</span> jieba</span><br><span class="line"></span><br><span class="line"><span class="comment"># 实例化一个SparkContext，用于连接Spark集群</span></span><br><span class="line"><span class="comment"># 第一个参数“local”表示以本地模式记载集群</span></span><br><span class="line"><span class="comment"># 第二个参数“WordCount”表示appName，不能有空格</span></span><br><span class="line">spark = SparkContext(<span class="string">"local"</span>, <span class="string">"WordCount"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取数据，创建弹性式分布数据集（RDD）</span></span><br><span class="line">data = spark.textFile(<span class="string">r"path/to/news.txt"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">r'path/to/stopwords-zh.txt'</span>, <span class="string">'r'</span>, encoding=<span class="string">'utf-8'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    s = f.readline()</span><br><span class="line"></span><br><span class="line">stop = [i.replace(<span class="string">'\n'</span>,<span class="string">''</span>) <span class="keyword">for</span> i <span class="keyword">in</span> s]</span><br><span class="line">data = data.flatMap(<span class="keyword">lambda</span> line: jieba.cut(line,cut_all=<span class="keyword">False</span>)).\</span><br><span class="line">    filter(<span class="keyword">lambda</span> w: w <span class="keyword">not</span> <span class="keyword">in</span> stop).\</span><br><span class="line">    map(<span class="keyword">lambda</span> w: (w,<span class="number">1</span>)).\</span><br><span class="line">    reduceByKey(<span class="keyword">lambda</span> w0, w1: w0 + w1).\</span><br><span class="line">    sortBy(<span class="keyword">lambda</span> x: x[<span class="number">1</span>], ascending=<span class="keyword">False</span>)</span><br><span class="line">print(data.take(<span class="number">100</span>))</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>设置程序运行配置，打开<code>Run-&gt;Edit Configuration</code>，按照如下图所示内容新建一个配置，其中环境变量必须加入<code>SPARK_HOME</code>、<code>HADOOP_HOME</code>以及<code>SPARK_LOCAL_HOSTNAME</code><br><img src="https://gh-io-1257470807.cos.ap-guangzhou.myqcloud.com/spark-configuration.png" alt=""></p>
+<li><p>设置程序运行配置，打开<code>Run-&gt;Edit Configuration</code>，按照如下图所示内容新建一个配置，其中环境变量必须加入<code>SPARK_HOME</code>、<code>HADOOP_HOME</code>以及<code>SPARK_LOCAL_HOSTNAME</code><br><img src="https://gh-io-1257470807.cos.ap-guangzhou.myqcloud.com/spark-configuration.png" alt="设置PyCharm运行配置"></p>
 </li>
-<li><p>运行程序，最后输出前100个高频词语<br><img src="https://gh-io-1257470807.cos.ap-guangzhou.myqcloud.com/wordcount.png" alt=""></p>
+<li><p>运行程序，最后输出前100个高频词语<br><img src="https://gh-io-1257470807.cos.ap-guangzhou.myqcloud.com/wordcount.png" alt="WordCount程序输出"></p>
 </li>
 </ul>
 <h3 id="程序提交到Spark运行"><a href="#程序提交到Spark运行" class="headerlink" title="程序提交到Spark运行"></a>程序提交到Spark运行</h3><p>上述词频统计代码也可以直接提交到Spark运行，方法如下：</p>
@@ -70,7 +70,7 @@
 <li><p>打开命令行，导航到Spark的安装目录，执行提交任务命令：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd D:/spark</span><br><span class="line">./bin/spark-submit /path/to/wordcount.py</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>最后输出类似的执行结果<br><img src="https://gh-io-1257470807.cos.ap-guangzhou.myqcloud.com/wordcount-shell.png" alt=""></p>
+<li><p>最后输出类似的执行结果<br><img src="https://gh-io-1257470807.cos.ap-guangzhou.myqcloud.com/wordcount-shell.png" alt="提交Spark任务，并输出运行结果"></p>
 </li>
 </ul>
 <h2 id="Scala-Java"><a href="#Scala-Java" class="headerlink" title="Scala/Java"></a>Scala/Java</h2><p>（待更新）</p>
